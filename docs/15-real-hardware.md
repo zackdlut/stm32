@@ -158,20 +158,22 @@ gdb-multiarch -q build/fault1/firmware.elf \
 
 ## 15.7 后续学习路线
 
-按大致顺序：
+本教程的后续章节按下面的顺序展开，每章都有可在模拟器里运行的例子（USB 除外）：
 
-| 主题 | 要点 | 参考 |
-|------|------|------|
-| **DMA** | 外设和内存之间自动搬运数据，串口不定长接收（IDLE 中断 + DMA）、ADC 连续采样 | RM0090 “DMA controller” |
-| **I2C** | 读写传感器（温湿度、IMU、EEPROM），理解地址、ACK、时钟拉伸 | RM0090 “Inter-integrated circuit (I2C) interface” |
-| **SPI** | 驱动显示屏、Flash、SD 卡；Discovery 板上的 LIS3DSH 加速度计就接在 SPI1 上 | RM0090 “Serial peripheral interface (SPI)” |
-| **ADC / DAC** | 模拟量采样，配合定时器触发和 DMA | RM0090 “ADC”、“DAC” |
-| **RTC、看门狗** | 低功耗计时；IWDG/WWDG 防止程序卡死 | RM0090 “IWDG”、“WWDG”、“RTC” |
-| **低功耗** | Sleep / Stop / Standby 模式，唤醒源 | RM0090 “Power controller (PWR)” |
-| **FreeRTOS** | 任务、队列、信号量、PendSV/SVC 上下文切换（PSP 栈） | 《Mastering the FreeRTOS Real Time Kernel》 |
-| **Bootloader** | 修改 VTOR、跳转到应用、在线升级（IAP） | AN2606、AN3965 |
-| **USB** | CDC 虚拟串口、HID | STM32 USB Device Library |
-| **单元测试与 CI** | 在 PC 上测试业务逻辑；用 Renode 在 CI 中跑固件测试（Robot Framework） | Renode 文档 |
+| 主题 | 要点 | 章节 | 参考 |
+|------|------|------|------|
+| **DMA** | 外设和内存之间自动搬运数据，串口 DMA 发送、ADC 连续采样 | [第 16 章](16-dma.md) | RM0090 “DMA controller” |
+| **I2C** | 读写传感器，理解地址、ACK、起始/停止条件 | [第 17 章](17-i2c.md) | RM0090 “Inter-integrated circuit (I2C) interface” |
+| **SPI** | 驱动 Flash、显示屏、SD 卡；时钟极性与相位 | [第 18 章](18-spi.md) | RM0090 “Serial peripheral interface (SPI)” |
+| **ADC / DAC** | 模拟量采样与输出，扫描 + DMA | [第 19 章](19-adc-dac.md) | RM0090 “ADC”、“DAC” |
+| **RTC、看门狗** | 日历、闹钟、唤醒；IWDG 防止程序卡死 | [第 20 章](20-rtc-watchdog.md) | RM0090 “IWDG”、“RTC” |
+| **低功耗** | Sleep / Stop / Standby 模式，唤醒源 | [第 21 章](21-low-power.md) | RM0090 “Power controller (PWR)” |
+| **FreeRTOS** | 任务、队列、信号量、PendSV/SVC 上下文切换（PSP 栈） | [第 22 章](22-freertos.md) | 《Mastering the FreeRTOS Real Time Kernel》 |
+| **Bootloader** | 修改 VTOR、跳转到应用、在线升级 | [第 23 章](23-bootloader.md) | AN2606、AN3965 |
+| **USB** | 枚举、描述符、CDC 虚拟串口（需要真板） | [第 24 章](24-usb.md) | TinyUSB 文档、USB 2.0 规范 |
+| **单元测试与 CI** | 在 PC 上测试业务逻辑；用 Renode 在 CI 中跑固件测试（Robot Framework） | [第 25 章](25-testing-ci.md) | Renode 文档 |
+
+之后可以继续探索的方向：以太网与 LwIP、CAN 总线、文件系统（FatFs、LittleFS）、图形界面（LVGL）、Zephyr RTOS、Rust 嵌入式（embassy）。
 
 推荐资料：
 
@@ -192,4 +194,4 @@ gdb-multiarch -q build/fault1/firmware.elf \
 
 ---
 
-上一章：[第 14 章　用 C++ 写嵌入式](14-cpp.md)　｜　[返回目录](README.md)　｜　附录：[A 速查表](appendix-a-cheatsheet.md)、[B Renode 使用说明](appendix-b-renode.md)
+上一章：[第 14 章　用 C++ 写嵌入式](14-cpp.md)　｜　下一章：[第 16 章　DMA](16-dma.md)

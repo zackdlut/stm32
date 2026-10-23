@@ -3,6 +3,7 @@
 #   - ARM CMSIS-Core headers (core_cm4.h and friends)
 #   - ST CMSIS device headers for STM32F4 (stm32f407xx.h, system_stm32f4xx.c)
 #   - ST STM32F4 HAL driver
+#   - FreeRTOS kernel, TinyUSB, Unity test framework (lessons 22, 24, 25)
 set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
@@ -10,6 +11,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 CMSIS_CORE_TAG=5.9.0
 CMSIS_DEVICE_TAG=v2.6.9
 HAL_TAG=v1.8.5
+FREERTOS_TAG=V11.3.2     # lesson 22
+TINYUSB_TAG=0.21.0       # lesson 24
+UNITY_TAG=v2.6.1         # lesson 25
 
 clone() {
     local url="$1" tag="$2" dir="$3"
@@ -24,6 +28,9 @@ clone() {
 
 clone https://github.com/STMicroelectronics/cmsis-device-f4.git "${CMSIS_DEVICE_TAG}" cmsis-device-f4
 clone https://github.com/STMicroelectronics/stm32f4xx-hal-driver.git "${HAL_TAG}" stm32f4xx-hal-driver
+clone https://github.com/FreeRTOS/FreeRTOS-Kernel.git "${FREERTOS_TAG}" freertos-kernel
+clone https://github.com/hathach/tinyusb.git "${TINYUSB_TAG}" tinyusb
+clone https://github.com/ThrowTheSwitch/Unity.git "${UNITY_TAG}" unity
 
 if [[ ! -d cmsis-core ]]; then
     mkdir -p cmsis-core/Include

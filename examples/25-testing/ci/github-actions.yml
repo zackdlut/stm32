@@ -1,0 +1,67 @@
+# GitHub Actions workflow for this tutorial. To use it, copy it to
+# .github/workflows/ci.yml at the root of your repository.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch vendor code
+        run: examples/third_party/fetch.sh
+      - name: Host unit tests (Unity + ASan + UBSan)
+        run: make -C examples/25-testing test
+
+  firmware:
+    runs-on: ubuntu-24.04
+    needs: unit-tests
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the Arm toolchain
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi
+      - name: Fetch vendor code
+        run: examples/third_party/fetch.sh
+      - name: Build every lesson
+        run: |
+          for d in examples/[0-9][0-9]-*/; do
+            echo "::group::$d"
+            make -C "$d" || exit 1
+            echo "::endgroup::"
+          done
+      - name: Keep the lesson 25 firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: lesson-25-firmware
+          path: examples/25-testing/build/firmware.elf
+
+  renode-tests:
+    runs-on: ubuntu-24.04
+    needs: firmware
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the Arm toolchain
+        run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi
+      - name: Fetch vendor code
+        run: examples/third_party/fetch.sh
+      - name: Build the firmware
+        run: make -C examples/25-testing
+      # Antmicro's action downloads Renode, installs the Robot Framework
+      # requirements and runs renode-test on the listed files.
+      - name: Run Robot tests in Renode
+        uses: antmicro/renode-test-action@v5
+        with:
+          renode-version: '1.17.0'
+          tests-to-run: examples/25-testing/test/firmware.robot
+      - name: Keep the test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: renode-report
+          path: |
+            report.html
+            log.html
+            robot_output.xml

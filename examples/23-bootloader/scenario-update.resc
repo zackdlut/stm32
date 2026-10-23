@@ -1,0 +1,12 @@
+# App v1 installed and v2 waiting in the staging slot, as if it had just been
+# downloaded over the UART or a radio link.
+sysbus LoadBinary $ORIGIN/build/app-v1.img 0x08008000
+sysbus LoadBinary $ORIGIN/build/app-v2.img 0x08020000
+emulation RunFor "0.4"
+
+# Press the button: the app resets the chip. A reset reloads only the
+# bootloader ELF; flash keeps what the bootloader wrote.
+gpioPortA.UserButton Press
+emulation RunFor "0.05"
+gpioPortA.UserButton Release
+emulation RunFor "0.3"

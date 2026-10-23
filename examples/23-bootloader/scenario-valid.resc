@@ -1,0 +1,3 @@
+# The bootloader ELF is already loaded at 0x08000000; put app v1 in its slot.
+sysbus LoadBinary $ORIGIN/build/app-v1.img 0x08008000
+emulation RunFor "0.3"

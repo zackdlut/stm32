@@ -1,0 +1,11 @@
+# Lesson 22: two button presses while the tasks run.
+
+emulation RunFor "0.33"
+gpioPortA.UserButton Press
+emulation RunFor "0.05"
+gpioPortA.UserButton Release
+emulation RunFor "0.4"
+gpioPortA.UserButton Press
+emulation RunFor "0.05"
+gpioPortA.UserButton Release
+emulation RunFor "0.47"

@@ -5,10 +5,11 @@
 #
 # If the current directory contains stimulus.resc, it is included instead of a
 # plain `emulation RunFor`, so a lesson can press buttons or type into the UART
-# at chosen moments of virtual time.
+# at chosen moments of virtual time. STIMULUS=other.resc picks another script.
 #
 # The full Renode log goes to build/renode.log. Only LED changes and errors are
-# echoed; set V=1 to also see warnings about registers Renode does not model.
+# echoed, plus lines matching LOG_FILTER (a regex a lesson Makefile may set);
+# set V=1 to also see warnings about registers Renode does not model.
 set -euo pipefail
 
 elf="$(realpath "$1")"
@@ -21,13 +22,17 @@ renode_log="${build_dir}/renode.log"
 
 rm -f "${uart_log}"
 
-if [[ -f stimulus.resc ]]; then
-    run_cmd="i @$(realpath stimulus.resc)"
+stimulus="${STIMULUS:-stimulus.resc}"
+if [[ -f "${stimulus}" ]]; then
+    run_cmd="i @$(realpath "${stimulus}")"
 else
     run_cmd="emulation RunFor \"${seconds}\""
 fi
 
 filter='LED state changed|ERROR|CPU abort'
+if [[ -n "${LOG_FILTER:-}" ]]; then
+    filter="${filter}|${LOG_FILTER}"
+fi
 if [[ "${V:-0}" != 0 ]]; then
     filter="${filter}|WARNING"
 fi

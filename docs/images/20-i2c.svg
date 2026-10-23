@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="600" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">I2C：两根开漏线、地址寻址、每个字节后一个 ACK</text>
+
+  <!-- bus topology -->
+  <line x1="60" y1="90" x2="940" y2="90" stroke="#2563eb" stroke-width="3"/>
+  <line x1="60" y1="130" x2="940" y2="130" stroke="#d97706" stroke-width="3"/>
+  <text x="50" y="95" text-anchor="end" font-weight="bold" fill="#1e40af">SCL</text>
+  <text x="50" y="135" text-anchor="end" font-weight="bold" fill="#92400e">SDA</text>
+  <!-- pull-ups -->
+  <g stroke="#374151" stroke-width="1.5" fill="none">
+    <line x1="120" y1="56" x2="120" y2="62"/><rect x="114" y="62" width="12" height="22" fill="#fff"/><line x1="120" y1="84" x2="120" y2="90"/>
+    <line x1="160" y1="56" x2="160" y2="62"/><rect x="154" y="62" width="12" height="22" fill="#fff"/><line x1="160" y1="84" x2="160" y2="130"/>
+    <line x1="100" y1="56" x2="180" y2="56"/>
+  </g>
+  <text x="190" y="62" font-size="12" fill="#374151">3.3 V 上拉电阻（4.7 kΩ）：没人拉低时线为高</text>
+  <!-- devices -->
+  <g font-size="12">
+    <rect x="240" y="160" width="190" height="64" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+    <text x="335" y="186" text-anchor="middle" font-weight="bold" fill="#3730a3">STM32 I2C1（主机）</text>
+    <text x="335" y="208" text-anchor="middle" fill="#111827">PB6=SCL  PB7=SDA，AF4 开漏</text>
+    <rect x="480" y="160" width="190" height="64" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="575" y="186" text-anchor="middle" font-weight="bold" fill="#15803d">Si7021 温湿度</text>
+    <text x="575" y="208" text-anchor="middle" fill="#111827">7 位地址 0x40</text>
+    <rect x="720" y="160" width="190" height="64" rx="8" fill="#f3f4f6" stroke="#9ca3af" stroke-width="2" stroke-dasharray="5 3"/>
+    <text x="815" y="186" text-anchor="middle" font-weight="bold" fill="#4b5563">其他器件…</text>
+    <text x="815" y="208" text-anchor="middle" fill="#111827">EEPROM 0x50、RTC 0x68</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.5">
+    <line x1="300" y1="90" x2="300" y2="160"/><line x1="370" y1="130" x2="370" y2="160"/>
+    <line x1="540" y1="90" x2="540" y2="160"/><line x1="610" y1="130" x2="610" y2="160"/>
+    <line x1="780" y1="90" x2="780" y2="160" stroke-dasharray="4 3"/><line x1="850" y1="130" x2="850" y2="160" stroke-dasharray="4 3"/>
+  </g>
+
+  <!-- waveform -->
+  <text x="30" y="268" font-weight="bold" fill="#111827">一次“写 1 个字节”的波形：START，地址 0x40 + W，ACK，数据 0xE3，ACK，STOP</text>
+  <g stroke-width="2" fill="none">
+    <path stroke="#2563eb" d="M60,300 L120,300 L120,330 L142,330 L142,300 L160,300 L160,330 L178,330 L178,300 L196,300 L196,330 L214,330 L214,300 L232,300 L232,330 L250,330 L250,300 L268,300 L268,330 L286,330 L286,300 L304,300 L304,330 L322,330 L322,300 L340,300 L340,330 L358,330 L358,300 L376,300 L376,330 L394,330 L394,300 L412,300 L412,330 L430,330 L430,300 L448,300 L448,330 L466,330 L466,300 L484,300 L484,330 L502,330 L502,300 L520,300 L520,330 L538,330 L538,300 L556,300 L556,330 L574,330 L574,300 L592,300 L592,330 L610,330 L610,300 L628,300 L628,330 L646,330 L646,300 L664,300 L664,330 L682,330 L682,300 L700,300 L700,330 L718,330 L718,300 L736,300 L736,330 L754,330 L754,300 L772,300 L772,330 L790,330 L790,300 L940,300"/>
+    <path stroke="#d97706" d="M60,350 L100,350 L100,380 L132,380 L132,350 L168,350 L168,380 L456,380 L456,350 L564,350 L564,380 L672,380 L672,350 L744,350 L744,380 L808,380 L808,350 L940,350"/>
+  </g>
+  <text x="50" y="320" text-anchor="end" font-size="12" fill="#1e40af">SCL</text>
+  <text x="50" y="370" text-anchor="end" font-size="12" fill="#92400e">SDA</text>
+  <g font-size="11" text-anchor="middle" fill="#111827">
+    <rect x="86" y="392" width="40" height="22" rx="4" fill="#fee2e2"/><text x="106" y="407">START</text>
+    <rect x="131" y="392" width="286" height="22" rx="4" fill="#e0e7ff"/><text x="274" y="407">地址 1000000（0x40）+ R/W=0（写）</text>
+    <rect x="419" y="392" width="34" height="22" rx="4" fill="#dcfce7"/><text x="436" y="407">ACK</text>
+    <rect x="455" y="392" width="286" height="22" rx="4" fill="#fef3c7"/><text x="598" y="407">数据 11100011（0xE3：测温命令）</text>
+    <rect x="743" y="392" width="34" height="22" rx="4" fill="#dcfce7"/><text x="760" y="407">ACK</text>
+    <rect x="784" y="392" width="40" height="22" rx="4" fill="#fee2e2"/><text x="804" y="407">STOP</text>
+  </g>
+  <text x="30" y="440" font-size="12" fill="#6b7280">规则：SCL 高时 SDA 必须稳定；SCL 高时 SDA 下降 = START，上升 = STOP。ACK = 接收方在第 9 个时钟把 SDA 拉低；没人拉 = NACK（地址不存在）。</text>
+
+  <!-- register flow -->
+  <rect x="30" y="458" width="940" height="128" rx="10" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="46" y="482" font-weight="bold" fill="#111827">STM32F4 I2C 外设的事件序列（写）—— 每一步都要等一个 SR1 标志</text>
+  <g font-size="12" fill="#111827" font-family="monospace">
+    <text x="46" y="508">CR1.START=1 → 等 SR1.SB → DR=地址&lt;&lt;1|0 → 等 SR1.ADDR（读 SR1 再读 SR2 清除）</text>
+    <text x="46" y="530">→ DR=数据 → 等 SR1.TXE … → 等 SR1.BTF（最后一字节移出）→ CR1.STOP=1</text>
+    <text x="46" y="552">出错：SR1.AF=1 表示 NACK（清 AF、发 STOP、返回错误）；所有等待都要有超时</text>
+  </g>
+  <text x="46" y="576" font-size="12" fill="#6b7280">读 N 个字节时还要按 RM0090 的 N=1 / N=2 / N&gt;2 三种流程提前清 ACK、置 STOP，否则会多读一个字节或卡住总线。</text>
+</svg>

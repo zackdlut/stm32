@@ -26,11 +26,11 @@ ARCH := -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 OPT ?= -O2
 
-CPPFLAGS += -I$(COMMON_DIR) -I. -DSTM32F407xx
+CPPFLAGS += -I$(COMMON_DIR) -I. -DSTM32F407xx -MMD -MP
 COMMON_FLAGS := $(ARCH) $(OPT) -g3 -Wall -Wextra -ffunction-sections -fdata-sections
 CFLAGS   += $(COMMON_FLAGS) -std=c11
 CXXFLAGS += $(COMMON_FLAGS) -std=c++17 -fno-exceptions -fno-rtti -fno-threadsafe-statics
-LDFLAGS  += $(ARCH) -T$(LDSCRIPT) --specs=nano.specs --specs=nosys.specs \
+LDFLAGS  += $(ARCH) -L$(COMMON_DIR) -T$(LDSCRIPT) --specs=nano.specs --specs=nosys.specs \
             -Wl,--gc-sections -Wl,-Map=$(BUILD)/$(TARGET).map -Wl,--print-memory-usage
 
 # Link with gcc even for C++: g++ would add -lstdc++, and the bare-metal C++
@@ -67,9 +67,12 @@ $(ELF): $(OBJS) $(LDSCRIPT)
 $(BUILD)/$(TARGET).bin: $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
+# Header dependencies written by -MMD: editing a .h rebuilds the objects using it.
+-include $(OBJS:.o=.d)
+
 # Run headless in Renode for RUN_TIME seconds of virtual time and print USART2.
 run: all
-	@$(COMMON_DIR)/run.sh $(ELF) $(RUN_TIME)
+	@LOG_FILTER='$(LOG_FILTER)' $(COMMON_DIR)/run.sh $(ELF) $(RUN_TIME)
 
 # Interactive Renode: USART2 on TCP port 3456, GDB server on port 3333.
 sim: all

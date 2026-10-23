@@ -1,0 +1,9 @@
+# Lesson 17: set the simulated Si7021 readings, then change them mid-run.
+
+i2c1.si7021 Temperature 23.5
+i2c1.si7021 Humidity 45
+emulation RunFor "0.15"
+
+i2c1.si7021 Temperature -5.25
+i2c1.si7021 Humidity 80
+emulation RunFor "0.35"

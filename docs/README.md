@@ -19,10 +19,22 @@
 │ 03 启动过程与链接脚本    │   │ 08 UART 串口与 printf         │   │ 13 GDB 调试与故障分析     │
 │ 04 GPIO 输出：点灯       │   │ 09 串口中断 + 命令行          │   │ 14 嵌入式 C++             │
 │ 05 GPIO 输入：按键消抖   │   │ 10 定时器与 PWM               │   │ 15 走向真实硬件           │
-└─────────────────────────┘   └──────────────────────────────┘   └──────────────────────────┘
+└─────────────────────────┘   └──────────────────────────────┘   └────────────┬─────────────┘
+            ┌─────────────────────────────────────────────────────────────────────┘
+            ▼
+ 外设篇（CMSIS 头文件）          系统篇
+┌─────────────────────────┐   ┌──────────────────────────────┐
+│ 16 DMA                  │   │ 21 低功耗                     │
+│ 17 I2C 总线             │──▶│ 22 FreeRTOS                   │
+│ 18 SPI 总线             │   │ 23 Bootloader 与固件升级       │
+│ 19 ADC 与 DAC           │   │ 24 USB 虚拟串口                │
+│ 20 RTC 与看门狗         │   │ 25 单元测试与 CI               │
+└─────────────────────────┘   └──────────────────────────────┘
 ```
 
-前 10 章刻意 **不用任何厂商库**，只用自己写的寄存器头文件，让你看清每一个比特；第 11、12 章再引入 ST 官方的 CMSIS 和 HAL，你会发现它们只是对同一批寄存器的封装。
+前 10 章刻意 **不用任何厂商库**，只用自己写的寄存器头文件，让你看清每一个比特；第 11、12 章再引入 ST 官方的 CMSIS 和 HAL，你会发现它们只是对同一批寄存器的封装。第 16 章起直接用 CMSIS 头文件（`stm32f4xx.h`）操作寄存器，这也是实际项目里最常见的写法。
+
+外设篇和系统篇依赖第 1~11 章的知识，各章之间基本独立，可以按需挑着读；第 22 章 FreeRTOS 建议在第 21 章之后读，第 25 章用到第 9 章的命令行思路。第 24 章 USB 需要真实开发板，其余各章都能在模拟器里完整运行。
 
 ## 章节目录
 
@@ -43,6 +55,16 @@
 | 13 | [调试与故障分析](13-debugging.md) | `13-debug-fault` | GDB、HardFault、CFSR、addr2line |
 | 14 | [嵌入式 C++](14-cpp.md) | `14-cpp` | 模板、`constexpr`、RAII、零开销 |
 | 15 | [走向真实硬件](15-real-hardware.md) | — | 烧录、调试探头、仿真与实物差异、进阶路线 |
+| 16 | [DMA](16-dma.md) | `16-dma` | 数据流/通道、内存到内存、串口 DMA 发送、中断标志 |
+| 17 | [I2C 总线](17-i2c.md) | `17-i2c` | 起始/停止、地址与 ACK、读 Si7021 温湿度 |
+| 18 | [SPI 总线](18-spi.md) | `18-spi` | CPOL/CPHA、片选、读写 SPI NOR Flash |
+| 19 | [ADC 与 DAC](19-adc-dac.md) | `19-adc-dac` | 逐次逼近、单次/扫描 + DMA、DAC 输出、自定义外设模型 |
+| 20 | [RTC 与看门狗](20-rtc-watchdog.md) | `20-rtc-watchdog` | LSE/备份域、BCD 日历、闹钟、IWDG、复位原因 |
+| 21 | [低功耗](21-low-power.md) | `21-low-power` | Sleep/Stop/Standby、RTC 唤醒、用指令数比较功耗 |
+| 22 | [FreeRTOS](22-freertos.md) | `22-freertos` | 任务、队列、信号量、互斥锁、PendSV、中断优先级 |
+| 23 | [Bootloader 与固件升级](23-bootloader.md) | `23-bootloader` | 分区、镜像头 + CRC、擦写 Flash、VTOR 跳转、断电安全升级 |
+| 24 | [USB 虚拟串口](24-usb.md) | `24-usb-cdc` | 端点、描述符、枚举、48 MHz、TinyUSB CDC（需真板） |
+| 25 | [单元测试与 CI](25-testing-ci.md) | `25-testing` | Unity、fake、Sanitizer、覆盖率、Robot 系统测试、GitHub Actions |
 | 附录 A | [速查表](appendix-a-cheatsheet.md) | — | 地址、寄存器、公式、命令 |
 | 附录 B | [Renode 使用说明、局限与 FAQ](appendix-b-renode.md) | — | 脚本、模拟按键/串口、常见问题 |
 
@@ -75,22 +97,25 @@ make clean                   # 清理
 stm32/
 ├── docs/                      本教程
 │   ├── README.md
-│   ├── 01-setup.md … 15-real-hardware.md
+│   ├── 01-setup.md … 25-testing-ci.md
 │   ├── appendix-*.md
 │   └── images/*.svg           原理图
 └── examples/
     ├── common/                所有课共用
     │   ├── stm32f407.h        自己写的寄存器定义（第 2 章讲）
     │   ├── startup.c          启动代码与向量表（第 3 章讲）
-    │   ├── stm32f407.ld       链接脚本（第 3 章讲）
+    │   ├── stm32f407.ld       链接脚本：存储器布局（第 3 章讲）
+    │   ├── stm32f407-sections.ld  链接脚本：段定义，第 23 章的 bootloader/app 也复用
     │   ├── syscalls.c         newlib 系统调用（第 8 章讲）
     │   ├── drivers/           从各课提炼出的小驱动：gpio/uart/systick/board
+    │   ├── cmsis-drivers/     第 16 章起用的 CMSIS 版小驱动：board.h、uart、tick
     │   ├── lesson.mk          公共 Makefile 规则
-    │   ├── board.repl/.resc   Renode 板级描述与启动脚本
-    │   ├── run.sh             无界面运行并收集串口输出
+    │   ├── cmsis.mk           第 16 章起的 Makefile 规则（ST 启动文件 + CMSIS）
+    │   ├── board.repl/.resc   Renode 板级描述与启动脚本（含 I2C 传感器、SPI Flash、DAC 模型）
+    │   ├── run.sh             无界面运行并收集串口输出（LOG_FILTER、STIMULUS 可调）
     │   └── sim.sh             交互式运行
-    ├── 01-hello … 14-cpp/     每课一个目录：main.c + Makefile (+ stimulus.resc)
-    ├── third_party/fetch.sh   下载 CMSIS / HAL（第 11 章起需要）
+    ├── 01-hello … 25-testing/ 每课一个目录：main.c + Makefile (+ stimulus.resc)
+    ├── third_party/fetch.sh   下载 CMSIS、HAL、FreeRTOS、TinyUSB、Unity
     └── stm32f407-renode/      最早的冒烟测试工程
 ```
 

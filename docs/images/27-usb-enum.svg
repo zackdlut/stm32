@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="620" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">USB 枚举：主机通过端点 0 一问一答，弄清设备是什么</text>
+
+  <!-- lifelines -->
+  <rect x="60" y="50" width="160" height="36" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="140" y="74" text-anchor="middle" font-weight="bold" fill="#3730a3">PC 主机</text>
+  <rect x="440" y="50" width="200" height="36" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="540" y="74" text-anchor="middle" font-weight="bold" fill="#15803d">STM32 + TinyUSB</text>
+  <line x1="140" y1="86" x2="140" y2="560" stroke="#9ca3af" stroke-dasharray="5 4"/>
+  <line x1="540" y1="86" x2="540" y2="560" stroke="#9ca3af" stroke-dasharray="5 4"/>
+
+  <g font-size="12">
+    <!-- 1 attach -->
+    <path d="M536,112 L144,112" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+    <text x="340" y="106" text-anchor="middle" fill="#15803d">① D+ 上拉 1.5 kΩ：“我是全速设备”</text>
+    <!-- 2 reset -->
+    <path d="M144,146 L536,146" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <text x="340" y="140" text-anchor="middle" fill="#1e40af">② 总线复位（拉低 ≥10 ms），设备地址 = 0</text>
+    <!-- 3 get device desc -->
+    <path d="M144,180 L536,180" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <text x="340" y="174" text-anchor="middle" fill="#1e40af">③ GET_DESCRIPTOR(Device)</text>
+    <path d="M536,204 L144,204" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+    <text x="340" y="222" text-anchor="middle" fill="#15803d">VID 0xCAFE, PID 0x4024, EP0 64 字节</text>
+    <!-- 4 set address -->
+    <path d="M144,252 L536,252" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <text x="340" y="246" text-anchor="middle" fill="#1e40af">④ SET_ADDRESS(5)：以后只回应地址 5</text>
+    <!-- 5 config -->
+    <path d="M144,288 L536,288" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <text x="340" y="282" text-anchor="middle" fill="#1e40af">⑤ GET_DESCRIPTOR(Configuration)</text>
+    <path d="M536,312 L144,312" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+    <text x="340" y="330" text-anchor="middle" fill="#15803d">2 个接口 + 3 个端点（见右侧）</text>
+    <!-- 6 strings -->
+    <path d="M144,360 L536,360" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <text x="340" y="354" text-anchor="middle" fill="#1e40af">⑥ GET_DESCRIPTOR(String 1/2/3)</text>
+    <path d="M536,384 L144,384" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowGreen)"/>
+    <text x="340" y="402" text-anchor="middle" fill="#15803d">"STM32 tutorial" "Lesson 24 CDC echo"（UTF-16）</text>
+    <!-- 7 driver -->
+    <rect x="40" y="420" width="200" height="40" rx="6" fill="#f3f4f6" stroke="#9ca3af"/>
+    <text x="140" y="436" text-anchor="middle" fill="#111827">按类 0x02/0x0A 加载</text>
+    <text x="140" y="452" text-anchor="middle" fill="#111827">cdc_acm 驱动</text>
+    <path d="M144,484 L536,484" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <text x="340" y="478" text-anchor="middle" fill="#1e40af">⑦ SET_CONFIGURATION(1)</text>
+    <rect x="550" y="470" width="150" height="28" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="625" y="489" text-anchor="middle" fill="#15803d">tud_mount_cb()</text>
+    <!-- 8 open terminal -->
+    <path d="M144,526 L536,526" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+    <text x="340" y="520" text-anchor="middle" fill="#1e40af">⑧ 打开 ttyACM0：SET_LINE_CODING、DTR=1</text>
+    <rect x="550" y="512" width="190" height="28" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="645" y="531" text-anchor="middle" fill="#15803d">tud_cdc_line_state_cb()</text>
+  </g>
+
+  <!-- endpoints panel -->
+  <rect x="700" y="100" width="280" height="330" rx="10" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="716" y="126" font-weight="bold" fill="#111827">CDC-ACM 设备的结构</text>
+  <g font-size="12" fill="#111827">
+    <rect x="716" y="140" width="248" height="44" rx="6" fill="#e0e7ff" stroke="#4f46e5"/>
+    <text x="728" y="158" font-weight="bold">EP0 控制端点（双向）</text>
+    <text x="728" y="176" fill="#374151">枚举请求、波特率设置</text>
+    <rect x="716" y="196" width="248" height="70" rx="6" fill="#fef3c7" stroke="#d97706"/>
+    <text x="728" y="214" font-weight="bold">接口 0：通信（Comm）</text>
+    <text x="728" y="234" font-family="monospace">EP 0x81 中断 IN, 8 B</text>
+    <text x="728" y="254" fill="#374151">串口状态通知</text>
+    <rect x="716" y="278" width="248" height="90" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+    <text x="728" y="296" font-weight="bold">接口 1：数据（Data）</text>
+    <text x="728" y="316" font-family="monospace">EP 0x02 批量 OUT, 64 B</text>
+    <text x="728" y="336" font-family="monospace">EP 0x82 批量 IN,  64 B</text>
+    <text x="728" y="356" fill="#374151">真正的串口数据</text>
+    <text x="716" y="390" fill="#6b7280">端点号最高位：1 = IN（设备→主机）</text>
+    <text x="716" y="410" fill="#6b7280">IAD 把两个接口捆成一个功能</text>
+  </g>
+
+  <rect x="20" y="572" width="960" height="40" rx="8" fill="#fef2f2" stroke="#dc2626"/>
+  <text x="36" y="597" font-size="12" fill="#111827">USB 全速只要求设备时钟恰好 48 MHz（±0.25%）：HSE 8 MHz → PLL /M=8 ×N=336 /Q=7。用 HSI 做时钟源误差太大，枚举会失败。</text>
+</svg>

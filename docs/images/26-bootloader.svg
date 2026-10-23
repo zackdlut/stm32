@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="600" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">Bootloader：先启动的小程序，检查、升级、再跳到真正的应用</text>
+
+  <!-- flash map -->
+  <text x="40" y="66" font-weight="bold" fill="#111827">Flash 分区（按扇区边界划分）</text>
+  <g font-size="12">
+    <rect x="40" y="80" width="330" height="80" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+    <text x="56" y="104" font-weight="bold" fill="#3730a3">Bootloader</text>
+    <text x="56" y="124" fill="#111827">扇区 0-1，32 KB</text>
+    <text x="56" y="144" fill="#6b7280">复位后 CPU 从这里取 SP 和 PC</text>
+    <text x="380" y="88" font-family="monospace" fill="#374151">0x08000000</text>
+
+    <rect x="40" y="160" width="330" height="26" fill="#fde68a" stroke="#d97706" stroke-width="2"/>
+    <text x="56" y="178" fill="#92400e">头部 512 B：magic / version / size / crc32</text>
+    <text x="380" y="168" font-family="monospace" fill="#374151">0x08008000</text>
+    <rect x="40" y="186" width="330" height="94" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="56" y="210" font-weight="bold" fill="#15803d">App 槽（正在用的应用）</text>
+    <text x="56" y="230" fill="#111827">向量表 + 代码，扇区 2-4，96 KB</text>
+    <text x="56" y="250" fill="#6b7280">链接地址 0x08008200（app.ld）</text>
+    <text x="380" y="194" font-family="monospace" fill="#374151">0x08008200 ← VTOR</text>
+
+    <rect x="40" y="280" width="330" height="80" fill="#f3f4f6" stroke="#6b7280" stroke-width="2" stroke-dasharray="6 3"/>
+    <text x="56" y="304" font-weight="bold" fill="#374151">Staging 槽（新固件暂存）</text>
+    <text x="56" y="324" fill="#111827">扇区 5，128 KB，同样带头部</text>
+    <text x="56" y="344" fill="#6b7280">由 UART/无线下载写入（本课由 Renode 预先放好）</text>
+    <text x="380" y="288" font-family="monospace" fill="#374151">0x08020000</text>
+    <rect x="40" y="360" width="330" height="30" fill="#ffffff" stroke="#d1d5db"/>
+    <text x="56" y="380" fill="#9ca3af">扇区 6-11 未使用</text>
+  </g>
+  <text x="40" y="414" font-size="11" fill="#6b7280">F407 扇区大小不等：0-3 各 16 KB，4 是 64 KB，5-11 各 128 KB。擦除只能整扇区进行，擦完全是 0xFF。</text>
+
+  <!-- flow chart -->
+  <g font-size="12">
+    <rect x="600" y="56" width="200" height="36" rx="18" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+    <text x="700" y="79" text-anchor="middle" fill="#3730a3">复位 → bootloader main()</text>
+
+    <polygon points="700,112 820,142 700,172 580,142" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="700" y="139" text-anchor="middle" fill="#111827">staging 有效</text>
+    <text x="700" y="155" text-anchor="middle" fill="#111827">且版本更新？</text>
+
+    <rect x="850" y="114" width="130" height="92" rx="8" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+    <text x="915" y="136" text-anchor="middle" font-weight="bold" fill="#9a3412">安装</text>
+    <text x="915" y="156" text-anchor="middle" fill="#111827">擦 app 扇区</text>
+    <text x="915" y="174" text-anchor="middle" fill="#111827">复制 + 校验</text>
+    <text x="915" y="192" text-anchor="middle" fill="#111827">再擦 staging</text>
+
+    <polygon points="700,214 820,244 700,274 580,244" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="700" y="241" text-anchor="middle" fill="#111827">app 头部、CRC、</text>
+    <text x="700" y="257" text-anchor="middle" fill="#111827">SP/PC 都合理？</text>
+
+    <rect x="590" y="300" width="220" height="132" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="700" y="322" text-anchor="middle" font-weight="bold" fill="#15803d">跳转</text>
+    <text x="604" y="344" fill="#111827">关中断、停 SysTick、清 NVIC</text>
+    <text x="604" y="362" fill="#111827">复位用过的外设（USART2）</text>
+    <text x="604" y="380" font-family="monospace" fill="#111827">SCB-&gt;VTOR = 0x08008200</text>
+    <text x="604" y="398" font-family="monospace" fill="#111827">MSP = vt[0]; 开中断</text>
+    <text x="604" y="416" font-family="monospace" fill="#111827">bx vt[1]  → app 的 Reset_Handler</text>
+
+    <rect x="850" y="300" width="130" height="80" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+    <text x="915" y="324" text-anchor="middle" font-weight="bold" fill="#991b1b">留在 bootloader</text>
+    <text x="915" y="344" text-anchor="middle" fill="#111827">红灯亮</text>
+    <text x="915" y="362" text-anchor="middle" fill="#111827">等待新固件</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.8" fill="none">
+    <path d="M700,92 L700,108" marker-end="url(#arrow)"/>
+    <path d="M820,142 L846,142" marker-end="url(#arrow)"/>
+    <path d="M700,172 L700,210" marker-end="url(#arrow)"/>
+    <path d="M915,206 L915,226 L830,240" marker-end="url(#arrow)"/>
+    <path d="M700,274 L700,296" marker-end="url(#arrow)"/>
+    <path d="M820,244 C860,250 900,270 912,296" marker-end="url(#arrow)"/>
+  </g>
+  <g font-size="11" fill="#374151">
+    <text x="824" y="134">是</text><text x="708" y="192">否</text><text x="708" y="290">是</text><text x="860" y="262">否</text>
+  </g>
+
+  <!-- signing pipeline -->
+  <rect x="20" y="440" width="960" height="146" rx="10" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="36" y="466" font-weight="bold" fill="#111827">构建流水线：app 链接到 0x08008200，sign.py 在前面加 512 字节头部</text>
+  <g font-size="12">
+    <rect x="40" y="482" width="150" height="40" rx="6" fill="#ffffff" stroke="#374151"/><text x="115" y="507" text-anchor="middle">app/main.c + app.ld</text>
+    <rect x="240" y="482" width="150" height="40" rx="6" fill="#ffffff" stroke="#374151"/><text x="315" y="507" text-anchor="middle">firmware.bin</text>
+    <rect x="440" y="482" width="230" height="40" rx="6" fill="#fde68a" stroke="#d97706"/><text x="555" y="507" text-anchor="middle">tools/sign.py：算 CRC-32/MPEG-2</text>
+    <rect x="720" y="482" width="240" height="40" rx="6" fill="#dcfce7" stroke="#16a34a"/><text x="840" y="507" text-anchor="middle">app-v1.img = 头部 + bin</text>
+  </g>
+  <g stroke="#374151" stroke-width="1.8" fill="none">
+    <path d="M190,502 L236,502" marker-end="url(#arrow)"/><path d="M390,502 L436,502" marker-end="url(#arrow)"/><path d="M670,502 L716,502" marker-end="url(#arrow)"/>
+  </g>
+  <text x="36" y="548" font-size="12" fill="#111827">CRC 算法必须和芯片 CRC 外设一致：多项式 0x04C11DB7，初值 0xFFFFFFFF，按 32 位字处理，不反转、不异或输出。</text>
+  <text x="36" y="570" font-size="12" fill="#111827">向量表要按 512 字节对齐（98 个表项 = 392 字节，向上取 2 的幂），所以头部正好占 0x200。</text>
+</svg>

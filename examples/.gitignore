@@ -4,6 +4,9 @@ build/
 third_party/cmsis-core/
 third_party/cmsis-device-f4/
 third_party/stm32f4xx-hal-driver/
+third_party/freertos-kernel/
+third_party/tinyusb/
+third_party/unity/
 
 # stm32f407-renode builds in place
 stm32f407-renode/firmware.elf

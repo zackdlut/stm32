@@ -1,0 +1,23 @@
+# Lesson 21: use the CPU's executed-instruction counter as an "energy meter".
+# The firmware writes the phase number to RTC_BKP0R (0x40002850); this hook
+# prints how many instructions ran and how much virtual time passed per phase.
+
+set meter_hook
+"""
+import __builtin__
+m = cpu.GetMachine()
+now_instr = cpu.ExecutedInstructions
+now_ms = m.LocalTimeSource.ElapsedVirtualTime.TotalMilliseconds
+if hasattr(__builtin__, 'meter_phase'):
+    di = now_instr - __builtin__.meter_instr
+    dt = now_ms - __builtin__.meter_ms
+    print("meter: phase %d  %5d ms  %9d instructions  (%6.3f%% of a CPU busy at 16 MIPS)" %
+          (__builtin__.meter_phase, dt, di, 100.0 * di / (dt * 16000.0)))
+__builtin__.meter_phase = value
+__builtin__.meter_instr = now_instr
+__builtin__.meter_ms = now_ms
+"""
+sysbus AddWatchpointHook 0x40002850 DoubleWord Write $meter_hook
+
+logLevel 3 gpioPortD.UserLED
+emulation RunFor "3.3"

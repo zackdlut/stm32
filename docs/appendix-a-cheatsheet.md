@@ -23,6 +23,10 @@
 | SPI2 | `0x4000 3800` | APB1 | `APB1ENR` bit 14 |
 | USART2 / USART3 | `0x4000 4400` / `4800` | APB1 | `APB1ENR` bit 17 / 18 |
 | I2C1 | `0x4000 5400` | APB1 | `APB1ENR` bit 21 |
+| RTC 与备份寄存器 | `0x4000 2800` | APB1 | `RCC_BDCR.RTCEN`（先置 `PWR_CR.DBP`） |
+| IWDG | `0x4000 3000` | APB1 | 无需使能（LSI 自动启动） |
+| PWR | `0x4000 7000` | APB1 | `APB1ENR` bit 28 |
+| DAC | `0x4000 7400` | APB1 | `APB1ENR` bit 29 |
 | TIM1 | `0x4001 0000` | APB2 | `APB2ENR` bit 0 |
 | USART1 / USART6 | `0x4001 1000` / `1400` | APB2 | `APB2ENR` bit 4 / 5 |
 | ADC1 | `0x4001 2000` | APB2 | `APB2ENR` bit 8 |
@@ -32,7 +36,9 @@
 | GPIOA ~ GPIOE | `0x4002 0000` + 0x400 × n | AHB1 | `AHB1ENR` bit n（A=0、B=1、C=2、D=3、E=4） |
 | RCC | `0x4002 3800` | AHB1 | |
 | FLASH 接口 | `0x4002 3C00` | AHB1 | |
+| CRC | `0x4002 3000` | AHB1 | `AHB1ENR` bit 12 |
 | DMA1 / DMA2 | `0x4002 6000` / `6400` | AHB1 | `AHB1ENR` bit 21 / 22 |
+| USB OTG_FS | `0x5000 0000` | AHB2 | `AHB2ENR` bit 7 |
 
 ## A.3 寄存器偏移
 
@@ -82,6 +88,66 @@
 | 0x24 / 0x28 / 0x2C | CNT / PSC / ARR | |
 | 0x34 ~ 0x40 | CCR1 ~ CCR4 | |
 
+**DMA**（数据流 n 的寄存器在 DMA 基址 + 0x10 + 0x18 × n）
+
+| 偏移 | 寄存器 | 关键位 |
+|------|--------|-------|
+| 0x00 | SxCR | EN(0)、TEIE(2)、HTIE(3)、TCIE(4)、DIR[7:6]（00 外设→内存、01 内存→外设、10 内存→内存）、CIRC(8)、PINC(9)、MINC(10)、PSIZE[12:11]、MSIZE[14:13]、PL[17:16]、CHSEL[27:25] |
+| 0x04 | SxNDTR | 剩余传输项数 |
+| 0x08 / 0x0C | SxPAR / SxM0AR | 外设地址 / 内存地址 |
+| 0x14 | SxFCR | FIFO 控制，DMDIS(2) |
+| DMA + 0x00 / 0x04 | LISR / HISR | 数据流 0~3 / 4~7 的标志：每个数据流 FEIF、DMEIF、TEIF、HTIF、TCIF；数据流 0/1/2/3 的 TCIF 在位 5/11/21/27 |
+| DMA + 0x08 / 0x0C | LIFCR / HIFCR | 对应位**写 1 清零** |
+
+**I2C**
+
+| 偏移 | 寄存器 | 关键位 |
+|------|--------|-------|
+| 0x00 | CR1 | PE(0)、START(8)、STOP(9)、ACK(10)、SWRST(15) |
+| 0x04 | CR2 | FREQ[5:0] = PCLK1 的 MHz 数、DMAEN(11)、LAST(12) |
+| 0x10 | DR | 数据 |
+| 0x14 | SR1 | SB(0)、ADDR(1)、BTF(2)、RXNE(6)、TXE(7)、AF(10) |
+| 0x18 | SR2 | MSL(0)、BUSY(1)、TRA(2)；**读 SR1 再读 SR2 清 ADDR** |
+| 0x1C / 0x20 | CCR / TRISE | SCL 分频 / 最大上升时间 |
+
+**SPI**
+
+| 偏移 | 寄存器 | 关键位 |
+|------|--------|-------|
+| 0x00 | CR1 | CPHA(0)、CPOL(1)、MSTR(2)、BR[5:3]、SPE(6)、LSBFIRST(7)、SSI(8)、SSM(9)、DFF(11) |
+| 0x04 | CR2 | RXDMAEN(0)、TXDMAEN(1)、SSOE(2) |
+| 0x08 | SR | RXNE(0)、TXE(1)、OVR(6)、BSY(7) |
+| 0x0C | DR | 写 = 发送，读 = 接收（全双工，每写一个字节就收一个） |
+
+**ADC**
+
+| 地址 | 寄存器 | 关键位 |
+|------|--------|-------|
+| ADC1 + 0x00 | SR | EOC(1)、OVR(5) |
+| ADC1 + 0x04 | CR1 | SCAN(8)、RES[25:24]（00 = 12 位） |
+| ADC1 + 0x08 | CR2 | ADON(0)、CONT(1)、DMA(8)、DDS(9)、EXTSEL[27:24]、EXTEN[29:28]、SWSTART(30) |
+| ADC1 + 0x0C / 0x10 | SMPR1 / SMPR2 | 每通道 3 位采样时间：通道 10~18 / 0~9 |
+| ADC1 + 0x2C ~ 0x34 | SQR1 ~ SQR3 | L[23:20] = 转换个数 − 1；SQ1 在 SQR3[4:0] |
+| ADC1 + 0x4C | DR | 结果 |
+| `0x4001 2304` | ADC_CCR（公共） | ADCPRE[17:16]、TSVREFE(23) |
+
+**RTC / IWDG / PWR / FLASH**
+
+| 地址 | 寄存器 | 说明 |
+|------|--------|------|
+| RTC + 0x00 / 0x04 | TR / DR | 时间 / 日期，BCD；先读 TR 再读 DR |
+| RTC + 0x08 | CR | WUCKSEL[2:0]、ALRAE(8)、WUTE(10)、ALRAIE(12)、WUTIE(14) |
+| RTC + 0x0C | ISR | ALRAWF(0)、WUTWF(2)、INITF(6)、INIT(7)、ALRAF(8)、WUTF(10) |
+| RTC + 0x10 / 0x14 | PRER / WUTR | 预分频 / 唤醒定时器重装值 |
+| RTC + 0x24 | WPR | 依次写 0xCA、0x53 解除写保护 |
+| RTC + 0x50 ~ 0x9C | BKP0R ~ BKP19R | 备份寄存器 |
+| IWDG + 0x00 | KR | 0xCCCC 启动、0x5555 解锁、0xAAAA 喂狗 |
+| IWDG + 0x04 / 0x08 | PR / RLR | 预分频 / 12 位重装值 |
+| PWR + 0x00 | CR | LPDS(0)、PDDS(1)、CWUF(2)、DBP(8)、VOS(14) |
+| FLASH + 0x04 | KEYR | 依次写 0x45670123、0xCDEF89AB 解锁 |
+| FLASH + 0x0C | SR | 错误标志、BSY(16) |
+| FLASH + 0x10 | CR | PG(0)、SER(1)、SNB[6:3]、PSIZE[9:8]、STRT(16)、LOCK(31) |
+
 **EXTI / SYSCFG**
 
 | 地址 | 寄存器 | 说明 |
@@ -122,7 +188,11 @@
 | 6 ~ 10 | EXTI0 ~ EXTI4 | 35 / 36 | SPI1 / SPI2 |
 | 23 | EXTI9_5 | 37 / 38 / 39 | USART1 / USART2 / USART3 |
 | 18 | ADC | 40 | EXTI15_10 |
-| 31 | I2C1_EV | 50 | TIM5 |
+| 31 / 32 | I2C1_EV / I2C1_ER | 50 | TIM5 |
+| 3 | RTC_WKUP | 41 | RTC_Alarm |
+| 11 ~ 17 | DMA1_Stream0 ~ 6 | 47 | DMA1_Stream7 |
+| 56 ~ 60 | DMA2_Stream0 ~ 4 | 68 ~ 70 | DMA2_Stream5 ~ 7 |
+| 67 | OTG_FS | | |
 
 向量表中的位置 = 16 + IRQn，地址偏移 = (16 + IRQn) × 4。
 
@@ -163,6 +233,12 @@ TIMx->SR = ~TIM_SR_UIF;                     /* rc_w0：写 0 清零 */
 | SysTick | LOAD = f_HCLK / f_tick − 1 | 16 MHz、1 kHz → 15999 |
 | 波特率 | BRR = round(f_PCLK / baud) | 16 MHz、115200 → 139 = `0x8B` |
 | 波特率误差 | (f_PCLK / BRR − baud) / baud | −0.08% |
+| I2C 标准模式 | CCR = f_PCLK1 / (2 × f_SCL)；TRISE = f_PCLK1(MHz) + 1 | 16 MHz、100 kHz → CCR = 80，TRISE = 17 |
+| SPI 时钟 | f_SCK = f_PCLK / 2^(BR + 1) | 16 MHz、BR = 1 → 4 MHz |
+| ADC 转换时间 | (采样周期 + 12) / f_ADCCLK | (84 + 12) / 4 MHz = 24 µs |
+| ADC 电压 | V = raw × V_REF / 4095 | 2482 → 2000 mV（3.3 V 参考） |
+| RTC 1 Hz | 32768 / ((PREDIV_A + 1) × (PREDIV_S + 1)) | 32768 / (128 × 256) = 1 Hz |
+| IWDG 超时 | (RLR + 1) × 4 × 2^PR / f_LSI | PR = 3、RLR = 499、32 kHz → 500 ms |
 
 ## A.7 本教程的 Make 目标
 
@@ -180,6 +256,9 @@ TIMx->SR = ~TIM_SR_UIF;                     /* rc_w0：写 0 清零 */
 | `make clean` | 删除 `build/` |
 | `make run FAULT=n` | 第 13 课：选择故障类型 |
 | `make gdb-demo` | 第 13 课：自动 GDB 演示 |
+| `make run-valid` / `run-corrupt` / `run-update` | 第 23 课：单独运行某个 bootloader 场景 |
+| `make test` / `make coverage` | 第 25 课：PC 上的单元测试 / 覆盖率 |
+| `make robot` / `make ci` | 第 25 课：Renode 系统测试 / 全部测试 |
 
 ## A.8 工具链命令
 

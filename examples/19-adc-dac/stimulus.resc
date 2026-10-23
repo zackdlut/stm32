@@ -1,0 +1,19 @@
+# Lesson 19: feed values into the simulated ADC1.
+# FeedSample <value> <channel> <repeat>: queue raw 12-bit results for a channel.
+
+# three single conversions of IN1
+sysbus.adc1 FeedSample 1241 1 1
+sysbus.adc1 FeedSample 2482 1 1
+sysbus.adc1 FeedSample 4095 1 1
+
+# four scan rounds: IN1 ramps up, IN8 ramps down
+sysbus.adc1 FeedSample 1000 1 1
+sysbus.adc1 FeedSample 1100 1 1
+sysbus.adc1 FeedSample 1200 1 1
+sysbus.adc1 FeedSample 1300 1 1
+sysbus.adc1 FeedSample 3000 8 1
+sysbus.adc1 FeedSample 2900 8 1
+sysbus.adc1 FeedSample 2800 8 1
+sysbus.adc1 FeedSample 2700 8 1
+
+emulation RunFor "0.3"

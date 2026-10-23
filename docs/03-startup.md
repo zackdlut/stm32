@@ -117,7 +117,7 @@ __attribute__((weak)) void SystemInit(void)
 | `malloc` | 堆 | RAM，`.bss` 之后向上长 |
 | 局部变量、函数调用 | 栈 | RAM 顶部向下长 |
 
-链接脚本 [`examples/common/stm32f407.ld`](../examples/common/stm32f407.ld) 告诉链接器芯片有哪些存储器、每个段放在哪里：
+链接脚本告诉链接器芯片有哪些存储器、每个段放在哪里。它分成两个文件：[`examples/common/stm32f407.ld`](../examples/common/stm32f407.ld) 写 `MEMORY`，最后一行 `INCLUDE stm32f407-sections.ld` 引入 [`stm32f407-sections.ld`](../examples/common/stm32f407-sections.ld) 里的 `SECTIONS`（第 23 章的 bootloader 和 app 会各写一个只改 `MEMORY` 的脚本，复用同一份 `SECTIONS`）。合在一起看是这样：
 
 ```ld
 ENTRY(Reset_Handler)

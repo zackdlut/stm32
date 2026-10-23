@@ -269,6 +269,7 @@ make run FAULT=1
 ```
 
 ```
+lesson 13, FAULT_KIND=1
 *** UsageFault (exception 6) ***
   r0  = 0x20000060  r1 = 0x00000000  r2 = 0x00000000  r3 = 0x00000000
   r12 = 0x00000018  lr = 0x08001c29  pc = 0x08001bc8  xpsr = 0x61000000

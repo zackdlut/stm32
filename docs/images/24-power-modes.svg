@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <rect width="1000" height="560" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">STM32F4 的四种功耗状态：关得越多越省电，醒来也越慢</text>
+
+  <!-- header -->
+  <g font-size="13" font-weight="bold" fill="#111827">
+    <rect x="20" y="54" width="960" height="34" fill="#f3f4f6"/>
+    <text x="34" y="76">模式</text><text x="140" y="76">怎么进入</text><text x="330" y="76">停掉了什么</text>
+    <text x="560" y="76">谁能叫醒</text><text x="740" y="76">醒来后</text><text x="880" y="76">电流量级</text>
+  </g>
+  <g font-size="12" fill="#111827">
+    <!-- Run -->
+    <rect x="20" y="88" width="960" height="54" fill="#fee2e2"/>
+    <text x="34" y="112" font-weight="bold" fill="#991b1b">Run</text><text x="34" y="130" fill="#6b7280">运行</text>
+    <text x="140" y="112">复位后默认</text>
+    <text x="330" y="112">什么都没停</text><text x="330" y="130" fill="#6b7280">降主频、关不用的外设时钟也能省</text>
+    <text x="560" y="112">—</text>
+    <text x="740" y="112">—</text>
+    <text x="880" y="112">几十 mA</text><text x="880" y="130" fill="#6b7280">168 MHz 时</text>
+    <!-- Sleep -->
+    <rect x="20" y="142" width="960" height="54" fill="#fef3c7"/>
+    <text x="34" y="166" font-weight="bold" fill="#92400e">Sleep</text><text x="34" y="184" fill="#6b7280">睡眠</text>
+    <text x="140" y="166" font-family="monospace">__WFI()</text><text x="140" y="184" fill="#6b7280">SLEEPDEEP = 0</text>
+    <text x="330" y="166">只停 CPU 时钟</text><text x="330" y="184" fill="#6b7280">外设、SysTick、DMA 照常跑</text>
+    <text x="560" y="166">任何已使能的中断</text>
+    <text x="740" y="166">立刻继续执行</text><text x="740" y="184" fill="#6b7280">几个周期</text>
+    <text x="880" y="166">低于 Run</text><text x="880" y="184" fill="#6b7280">取决于外设</text>
+    <!-- Stop -->
+    <rect x="20" y="196" width="960" height="54" fill="#dbeafe"/>
+    <text x="34" y="220" font-weight="bold" fill="#1e40af">Stop</text><text x="34" y="238" fill="#6b7280">停止</text>
+    <text x="140" y="220" font-family="monospace">SLEEPDEEP=1, PDDS=0</text><text x="140" y="238" fill="#6b7280">LPDS=1 再省一点</text>
+    <text x="330" y="220">所有 1.2 V 域时钟、PLL、HSI、HSE</text><text x="330" y="238" fill="#6b7280">SRAM 和寄存器内容保留</text>
+    <text x="560" y="220">EXTI 线：按键、RTC</text><text x="560" y="238">唤醒/闹钟、USB 唤醒…</text>
+    <text x="740" y="220">接着执行，时钟</text><text x="740" y="238">回到 HSI 16 MHz</text>
+    <text x="880" y="220">零点几 mA</text>
+    <!-- Standby -->
+    <rect x="20" y="250" width="960" height="54" fill="#dcfce7"/>
+    <text x="34" y="274" font-weight="bold" fill="#15803d">Standby</text><text x="34" y="292" fill="#6b7280">待机</text>
+    <text x="140" y="274" font-family="monospace">SLEEPDEEP=1, PDDS=1</text><text x="140" y="292" fill="#6b7280">先清 WUF 标志</text>
+    <text x="330" y="274">整个 1.2 V 域断电</text><text x="330" y="292" fill="#6b7280">SRAM 丢失，只剩备份域</text>
+    <text x="560" y="274">WKUP 引脚 PA0、RTC、</text><text x="560" y="292">NRST、IWDG</text>
+    <text x="740" y="274">从头复位启动</text><text x="740" y="292" fill="#6b7280">看 PWR_CSR.SBF</text>
+    <text x="880" y="274">几 µA</text>
+  </g>
+  <text x="20" y="324" font-size="11" fill="#6b7280">电流只给量级，具体数值查 STM32F407 数据手册 “Supply current characteristics” 一节。Renode 不模拟 Standby，也不模拟电流。</text>
+
+  <!-- lesson 21 chart -->
+  <rect x="20" y="340" width="960" height="206" rx="10" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="36" y="366" font-weight="bold" fill="#111827">第 21 课实测：同样每 100 ms 干一次活，1 秒内 CPU 执行了多少条指令（对数刻度）</text>
+  <g font-size="12" fill="#111827">
+    <text x="36" y="404">忙等 busy-wait</text>
+    <text x="36" y="452">WFI + SysTick</text>
+    <text x="36" y="500">Stop + RTC 唤醒</text>
+  </g>
+  <!-- scale: log10(n) * 90 px, origin 180 -->
+  <rect x="180" y="388" width="648" height="26" fill="#f87171"/>
+  <rect x="180" y="436" width="360" height="26" fill="#fbbf24"/>
+  <rect x="180" y="484" width="233" height="26" fill="#60a5fa"/>
+  <g font-size="12" fill="#111827">
+    <text x="820" y="406" text-anchor="end" fill="#ffffff" font-weight="bold">15 994 994 条（CPU 100% 在转）</text>
+    <text x="550" y="454">10 181 条（0.064%）</text>
+    <text x="423" y="502">384 条（0.002%）</text>
+  </g>
+  <g stroke="#9ca3af" stroke-width="1">
+    <line x1="180" y1="380" x2="180" y2="520"/>
+  </g>
+  <g font-size="10" fill="#6b7280" text-anchor="middle">
+    <text x="180" y="534">1</text><text x="270" y="534">10</text><text x="360" y="534">100</text><text x="450" y="534">1 千</text>
+    <text x="540" y="534">1 万</text><text x="630" y="534">10 万</text><text x="720" y="534">100 万</text><text x="810" y="534">1000 万</text>
+  </g>
+  <g stroke="#e5e7eb" stroke-width="1">
+    <line x1="270" y1="380" x2="270" y2="520"/><line x1="360" y1="380" x2="360" y2="520"/><line x1="450" y1="380" x2="450" y2="520"/>
+    <line x1="540" y1="380" x2="540" y2="520"/><line x1="630" y1="380" x2="630" y2="520"/><line x1="720" y1="380" x2="720" y2="520"/><line x1="810" y1="380" x2="810" y2="520"/>
+  </g>
+</svg>

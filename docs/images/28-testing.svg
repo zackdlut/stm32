@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="560" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">嵌入式测试金字塔：越往下越快、越多；越往上越真实、越少</text>
+
+  <!-- pyramid -->
+  <polygon points="250,70 330,70 400,170 180,170" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <polygon points="180,170 400,170 470,280 110,280" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <polygon points="110,280 470,280 540,400 40,400" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <g text-anchor="middle">
+    <text x="290" y="120" font-weight="bold" fill="#991b1b">硬件在环</text>
+    <text x="290" y="142" font-size="11" fill="#111827">真板子 + 夹具</text>
+    <text x="290" y="216" font-weight="bold" fill="#92400e">模拟器系统测试</text>
+    <text x="290" y="238" font-size="11" fill="#111827">整个 ELF 跑在 Renode 里</text>
+    <text x="290" y="258" font-size="11" fill="#111827">Robot Framework 驱动 UART/LED</text>
+    <text x="290" y="330" font-weight="bold" fill="#15803d">主机单元测试</text>
+    <text x="290" y="352" font-size="11" fill="#111827">纯逻辑模块用 PC 的 gcc 编译</text>
+    <text x="290" y="372" font-size="11" fill="#111827">Unity + ASan/UBSan，毫秒级</text>
+  </g>
+  <g font-size="12" fill="#111827">
+    <text x="560" y="110">几分钟/次，需要人和设备：电气、时序、射频、功耗</text>
+    <text x="560" y="214">十几秒/次：中断、外设寄存器、整机流程</text>
+    <text x="560" y="234" fill="#6b7280">本课 make robot：4 个用例</text>
+    <text x="560" y="330">不到 1 秒：环形缓冲区、波特率计算、命令解析</text>
+    <text x="560" y="350" fill="#6b7280">本课 make test：19 个用例，行覆盖率 100%</text>
+  </g>
+
+  <!-- design rule -->
+  <rect x="560" y="380" width="420" height="40" rx="8" fill="#eff6ff" stroke="#2563eb"/>
+  <text x="576" y="405" font-size="12" fill="#111827">关键：逻辑代码不直接碰寄存器，硬件通过函数指针（cmd_hw_t）注入</text>
+
+  <!-- CI pipeline -->
+  <text x="20" y="452" font-weight="bold" fill="#111827">CI 流水线（ci/github-actions.yml）：每次 push 自动跑，任何一步失败就标红</text>
+  <g font-size="12">
+    <rect x="20" y="468" width="140" height="60" rx="8" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+    <text x="90" y="494" text-anchor="middle" font-weight="bold" fill="#111827">git push</text>
+    <text x="90" y="514" text-anchor="middle" fill="#6b7280">或 Pull Request</text>
+    <rect x="210" y="468" width="200" height="60" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <text x="310" y="494" text-anchor="middle" font-weight="bold" fill="#15803d">unit-tests</text>
+    <text x="310" y="514" text-anchor="middle" fill="#111827">make test</text>
+    <rect x="460" y="468" width="220" height="60" rx="8" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+    <text x="570" y="494" text-anchor="middle" font-weight="bold" fill="#3730a3">firmware</text>
+    <text x="570" y="514" text-anchor="middle" fill="#111827">编译全部课程 + 上传 ELF</text>
+    <rect x="730" y="468" width="250" height="60" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+    <text x="855" y="494" text-anchor="middle" font-weight="bold" fill="#92400e">renode-tests</text>
+    <text x="855" y="514" text-anchor="middle" fill="#111827">renode-test-action + 报告</text>
+  </g>
+  <g stroke="#374151" stroke-width="2" fill="none">
+    <path d="M160,498 L206,498" marker-end="url(#arrow)"/><path d="M410,498 L456,498" marker-end="url(#arrow)"/><path d="M680,498 L726,498" marker-end="url(#arrow)"/>
+  </g>
+  <text x="20" y="550" font-size="11" fill="#6b7280">needs: 让后一阶段等前一阶段成功；快的放前面，坏提交几秒内就会被拦下。</text>
+</svg>

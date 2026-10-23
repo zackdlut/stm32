@@ -1,0 +1,10 @@
+# Lesson 25 `make run`: type a few commands into the shell.
+emulation RunFor "0.05"
+sysbus.usart2 WriteLine "help"
+emulation RunFor "0.05"
+sysbus.usart2 WriteLine "led red on"
+emulation RunFor "0.05"
+sysbus.usart2 WriteLine "baud 16000000 115200"
+emulation RunFor "0.05"
+sysbus.usart2 WriteLine "uptime"
+emulation RunFor "0.05"
