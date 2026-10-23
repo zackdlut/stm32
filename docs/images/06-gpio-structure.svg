@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="560" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">一个 GPIO 引脚的内部结构（简化）与 Discovery 板 LED 接法</text>
+
+  <!-- inside the chip -->
+  <rect x="20" y="52" width="610" height="490" rx="12" fill="#fafafa" stroke="#9ca3af" stroke-dasharray="8 5" stroke-width="2"/>
+  <text x="36" y="76" fill="#6b7280">芯片内部（每个引脚一套）</text>
+
+  <!-- registers -->
+  <rect x="40" y="96" width="150" height="40" rx="6" fill="#fde68a" stroke="#d97706"/>
+  <text x="115" y="121" text-anchor="middle" fill="#111827">BSRR（写）</text>
+  <rect x="40" y="156" width="150" height="40" rx="6" fill="#fde68a" stroke="#d97706"/>
+  <text x="115" y="181" text-anchor="middle" fill="#111827">ODR 输出数据</text>
+  <line x1="115" y1="136" x2="115" y2="152" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="40" y="226" width="150" height="40" rx="6" fill="#ffedd5" stroke="#ea580c"/>
+  <text x="115" y="244" text-anchor="middle" font-size="13" fill="#111827">外设复用输出</text>
+  <text x="115" y="260" text-anchor="middle" font-size="11" fill="#6b7280">USART TX、TIM PWM…</text>
+
+  <!-- output mux -->
+  <path d="M230,150 L270,165 L270,255 L230,270 Z" fill="#e5e7eb" stroke="#4b5563" stroke-width="2"/>
+  <text x="250" y="214" text-anchor="middle" font-size="12" fill="#111827">选择</text>
+  <line x1="190" y1="176" x2="226" y2="176" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="190" y1="246" x2="226" y2="246" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="250" y="140" text-anchor="middle" font-size="12" fill="#7c3aed">MODER</text>
+  <line x1="250" y1="144" x2="250" y2="158" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- output driver -->
+  <rect x="300" y="150" width="140" height="120" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="370" y="174" text-anchor="middle" font-weight="bold" fill="#1d4ed8">输出驱动</text>
+  <text x="370" y="198" text-anchor="middle" font-size="12" fill="#111827">P-MOS：拉到 VDD</text>
+  <text x="370" y="218" text-anchor="middle" font-size="12" fill="#111827">N-MOS：拉到 GND</text>
+  <text x="370" y="242" text-anchor="middle" font-size="11" fill="#6b7280">OTYPER 推挽/开漏</text>
+  <text x="370" y="258" text-anchor="middle" font-size="11" fill="#6b7280">OSPEEDR 翻转速度</text>
+  <line x1="270" y1="210" x2="296" y2="210" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- pull resistors -->
+  <rect x="455" y="96" width="115" height="50" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="512" y="117" text-anchor="middle" font-size="13" fill="#111827">上拉 ~40 kΩ</text>
+  <text x="512" y="136" text-anchor="middle" font-size="11" fill="#6b7280">接 VDD，PUPDR=01</text>
+  <rect x="455" y="276" width="115" height="50" rx="6" fill="#dcfce7" stroke="#16a34a"/>
+  <text x="512" y="297" text-anchor="middle" font-size="13" fill="#111827">下拉 ~40 kΩ</text>
+  <text x="512" y="316" text-anchor="middle" font-size="11" fill="#6b7280">接 GND，PUPDR=10</text>
+
+  <!-- node to pin -->
+  <line x1="440" y1="210" x2="640" y2="210" stroke="#111827" stroke-width="3"/>
+  <line x1="512" y1="146" x2="512" y2="210" stroke="#16a34a" stroke-width="2"/>
+  <line x1="512" y1="210" x2="512" y2="276" stroke="#16a34a" stroke-width="2"/>
+  <circle cx="512" cy="210" r="4" fill="#111827"/>
+
+  <!-- input path -->
+  <line x1="580" y1="210" x2="580" y2="420" stroke="#111827" stroke-width="2"/>
+  <circle cx="580" cy="210" r="4" fill="#111827"/>
+  <line x1="580" y1="420" x2="474" y2="420" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M470,395 L470,445 L420,420 Z" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="450" y="470" text-anchor="middle" font-size="12" fill="#3730a3">施密特触发器</text>
+  <text x="450" y="486" text-anchor="middle" font-size="11" fill="#6b7280">把模拟电平变成 0/1</text>
+  <line x1="420" y1="420" x2="384" y2="420" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="230" y="400" width="150" height="40" rx="6" fill="#fde68a" stroke="#d97706"/>
+  <text x="305" y="425" text-anchor="middle" fill="#111827">IDR 输入数据（读）</text>
+  <line x1="305" y1="440" x2="305" y2="496" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="190" y="500" width="230" height="36" rx="6" fill="#ffedd5" stroke="#ea580c"/>
+  <text x="305" y="523" text-anchor="middle" font-size="13" fill="#111827">外设复用输入（USART RX）/ EXTI</text>
+
+  <!-- MODER table -->
+  <rect x="40" y="300" width="160" height="100" rx="8" fill="#ffffff" stroke="#7c3aed"/>
+  <text x="120" y="322" text-anchor="middle" font-weight="bold" fill="#5b21b6">MODER 两位一组</text>
+  <g font-size="12" fill="#111827">
+    <text x="54" y="344">00 输入（复位默认）</text>
+    <text x="54" y="362">01 通用输出</text>
+    <text x="54" y="380">10 复用功能 AF</text>
+    <text x="54" y="396">11 模拟（ADC）</text>
+  </g>
+
+  <!-- pin pad -->
+  <rect x="616" y="190" width="28" height="40" fill="#9ca3af" stroke="#374151" stroke-width="2"/>
+  <text x="630" y="250" text-anchor="middle" font-weight="bold" fill="#111827">PD12</text>
+
+  <!-- board side: LED -->
+  <rect x="660" y="52" width="320" height="490" rx="12" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="820" y="80" text-anchor="middle" font-weight="bold" fill="#15803d">开发板上的电路</text>
+  <line x1="644" y1="210" x2="760" y2="210" stroke="#111827" stroke-width="3"/>
+  <!-- resistor -->
+  <rect x="760" y="198" width="60" height="24" fill="#ffffff" stroke="#111827" stroke-width="2"/>
+  <text x="790" y="190" text-anchor="middle" font-size="12" fill="#374151">限流电阻</text>
+  <line x1="820" y1="210" x2="880" y2="210" stroke="#111827" stroke-width="3"/>
+  <line x1="880" y1="210" x2="880" y2="250" stroke="#111827" stroke-width="3"/>
+  <!-- LED symbol -->
+  <path d="M860,250 L900,250 L880,285 Z" fill="#22c55e" stroke="#111827" stroke-width="2"/>
+  <line x1="860" y1="285" x2="900" y2="285" stroke="#111827" stroke-width="3"/>
+  <line x1="905" y1="258" x2="925" y2="244" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="908" y1="272" x2="928" y2="258" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="935" y="270" font-size="12" fill="#15803d">绿</text>
+  <line x1="880" y1="285" x2="880" y2="330" stroke="#111827" stroke-width="3"/>
+  <line x1="855" y1="330" x2="905" y2="330" stroke="#111827" stroke-width="3"/>
+  <line x1="863" y1="338" x2="897" y2="338" stroke="#111827" stroke-width="3"/>
+  <line x1="871" y1="346" x2="889" y2="346" stroke="#111827" stroke-width="3"/>
+  <text x="880" y="368" text-anchor="middle" font-size="12" fill="#374151">GND</text>
+
+  <g font-size="13" fill="#111827">
+    <text x="680" y="410">ODR 位 = 1 → 引脚 3.3 V</text>
+    <text x="680" y="430" fill="#15803d">→ 电流流过 LED → 灯亮</text>
+    <text x="680" y="460">ODR 位 = 0 → 引脚 0 V → 灯灭</text>
+    <text x="680" y="496" font-size="12" fill="#374151">PD12 绿 / PD13 橙 / PD14 红 / PD15 蓝</text>
+    <text x="680" y="518" font-size="12" fill="#374151">都是“高电平点亮”，均需推挽输出</text>
+  </g>
+</svg>

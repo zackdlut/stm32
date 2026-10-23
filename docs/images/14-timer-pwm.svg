@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="600" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">通用定时器：预分频 → 计数 → 比较，产生中断和 PWM</text>
+
+  <!-- block chain -->
+  <rect x="20" y="60" width="130" height="60" rx="8" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="85" y="85" text-anchor="middle" font-weight="bold" fill="#854d0e">定时器时钟</text>
+  <text x="85" y="106" text-anchor="middle" font-size="12" fill="#111827">16 MHz（复位后）</text>
+  <rect x="190" y="60" width="130" height="60" rx="8" fill="#ffffff" stroke="#4b5563" stroke-width="2"/>
+  <text x="255" y="85" text-anchor="middle" font-weight="bold" fill="#111827">PSC 预分频</text>
+  <text x="255" y="106" text-anchor="middle" font-size="12" fill="#111827">÷(PSC+1) = ÷16</text>
+  <rect x="360" y="60" width="180" height="60" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="450" y="85" text-anchor="middle" font-weight="bold" fill="#1d4ed8">CNT 计数器</text>
+  <text x="450" y="106" text-anchor="middle" font-size="12" fill="#111827">1 MHz：0,1,2…ARR,0,1…</text>
+  <line x1="150" y1="90" x2="186" y2="90" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="320" y1="90" x2="356" y2="90" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="590" y="50" width="180" height="40" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="680" y="68" text-anchor="middle" font-size="13" fill="#991b1b">CNT == ARR → 更新事件</text>
+  <text x="680" y="84" text-anchor="middle" font-size="11" fill="#991b1b">UIF 置位，UIE=1 时进中断</text>
+  <rect x="590" y="98" width="180" height="40" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="680" y="116" text-anchor="middle" font-size="13" fill="#15803d">CNT 与 CCR1 比较</text>
+  <text x="680" y="132" text-anchor="middle" font-size="11" fill="#15803d">PWM 模式 1：CNT&lt;CCR 时输出高</text>
+  <path d="M540,80 L566,80 L566,70 L586,70" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M540,100 L566,100 L566,118 L586,118" fill="none" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="770" y1="70" x2="806" y2="70" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="812" y="74" font-size="12" fill="#111827">TIMx_IRQHandler（周期中断）</text>
+  <line x1="770" y1="118" x2="806" y2="118" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="812" y="114" font-size="12" fill="#111827">TIM4_CH1 → PD12（AF2）</text>
+  <text x="812" y="132" font-size="11" fill="#6b7280">绿灯亮度</text>
+
+  <!-- waveform area -->
+  <text x="98" y="172" font-size="13" fill="#374151">CNT</text>
+  <line x1="90" y1="330" x2="960" y2="330" stroke="#6b7280" stroke-width="1"/>
+  <line x1="90" y1="330" x2="90" y2="170" stroke="#6b7280" stroke-width="1"/>
+  <line x1="86" y1="190" x2="960" y2="190" stroke="#d1d5db" stroke-dasharray="4 4"/>
+  <text x="84" y="194" text-anchor="end" font-size="12" fill="#2563eb">ARR</text>
+  <text x="84" y="334" text-anchor="end" font-size="12" fill="#374151">0</text>
+  <!-- three periods of 260 px each starting x=100 -->
+  <path d="M100,330 L360,190 L360,330 L620,190 L620,330 L880,190 L880,330" fill="none" stroke="#2563eb" stroke-width="3"/>
+  <!-- CCR levels: first two periods 25% (y=330-0.25*140=295), last 75% (y=225) -->
+  <line x1="100" y1="295" x2="620" y2="295" stroke="#16a34a" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="105" y="288" font-size="12" fill="#15803d">CCR1 = 2500（25%）</text>
+  <line x1="620" y1="225" x2="880" y2="225" stroke="#16a34a" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="625" y="218" font-size="12" fill="#15803d">CCR1 = 7500（75%）</text>
+  <!-- update markers -->
+  <g fill="#dc2626">
+    <path d="M360,336 l-6,12 h12 z"/><path d="M620,336 l-6,12 h12 z"/><path d="M880,336 l-6,12 h12 z"/>
+  </g>
+  <text x="360" y="364" text-anchor="middle" font-size="11" fill="#dc2626">更新事件</text>
+  <text x="620" y="364" text-anchor="middle" font-size="11" fill="#dc2626">更新事件</text>
+  <text x="880" y="364" text-anchor="middle" font-size="11" fill="#dc2626">更新事件</text>
+
+  <!-- PWM output -->
+  <text x="40" y="400" font-size="13" fill="#374151">PD12</text>
+  <path d="M100,450 L100,400 L165,400 L165,450 L360,450 L360,400 L425,400 L425,450 L620,450 L620,400 L815,400 L815,450 L880,450 L880,400 L900,400" fill="none" stroke="#16a34a" stroke-width="3"/>
+  <line x1="100" y1="468" x2="360" y2="468" stroke="#374151" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="230" y="486" text-anchor="middle" font-size="12" fill="#374151">周期 = (ARR+1) 个计数 = 10 ms</text>
+  <line x1="100" y1="392" x2="165" y2="392" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="132" y="386" text-anchor="middle" font-size="11" fill="#15803d">高 2.5 ms</text>
+  <text x="717" y="392" text-anchor="middle" font-size="11" fill="#15803d">高 7.5 ms → 更亮</text>
+
+  <!-- formulas -->
+  <rect x="20" y="505" width="960" height="85" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-width="2"/>
+  <g font-size="13" fill="#111827">
+    <text x="36" y="530" font-family="monospace">f_update = f_TIM / ((PSC + 1) × (ARR + 1))</text>
+    <text x="36" y="552" font-family="monospace">duty     = CCR / (ARR + 1)</text>
+    <text x="36" y="576" font-size="12" fill="#374151">第 10 课：TIM4 PSC=15 ARR=9999 → 16 MHz/16/10000 = 100 Hz；TIM3 PSC=15999 ARR=499 → 2 Hz（0.5 s 中断）；TIM2 PSC=0 ARR=1599 → 10 kHz 采样</text>
+  </g>
+  <text x="964" y="530" text-anchor="end" font-size="12" fill="#6b7280">人眼看不出 100 Hz 闪烁，只看到平均亮度</text>
+</svg>

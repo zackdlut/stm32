@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="600" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">STM32F407 内部结构（简化）：CPU 通过总线访问存储器和外设</text>
+
+  <!-- chip outline -->
+  <rect x="20" y="50" width="960" height="530" rx="14" fill="#fafafa" stroke="#9ca3af" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="40" y="74" fill="#6b7280">STM32F407VG 芯片</text>
+
+  <!-- core -->
+  <rect x="50" y="95" width="260" height="190" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="180" y="122" text-anchor="middle" font-size="16" font-weight="bold" fill="#1d4ed8">Cortex-M4 内核（ARM 设计）</text>
+  <rect x="70" y="140" width="105" height="40" rx="6" fill="#ffffff" stroke="#2563eb"/>
+  <text x="122" y="165" text-anchor="middle" fill="#1e3a8a">CPU 寄存器</text>
+  <rect x="185" y="140" width="105" height="40" rx="6" fill="#ffffff" stroke="#2563eb"/>
+  <text x="237" y="165" text-anchor="middle" fill="#1e3a8a">FPU 浮点</text>
+  <rect x="70" y="190" width="105" height="40" rx="6" fill="#ffffff" stroke="#2563eb"/>
+  <text x="122" y="215" text-anchor="middle" fill="#1e3a8a">NVIC 中断</text>
+  <rect x="185" y="190" width="105" height="40" rx="6" fill="#ffffff" stroke="#2563eb"/>
+  <text x="237" y="215" text-anchor="middle" fill="#1e3a8a">SysTick 定时</text>
+  <rect x="70" y="240" width="220" height="32" rx="6" fill="#ffffff" stroke="#2563eb"/>
+  <text x="180" y="261" text-anchor="middle" fill="#1e3a8a">调试接口 SWD（接 ST-LINK）</text>
+
+  <!-- bus matrix -->
+  <rect x="360" y="95" width="70" height="460" rx="10" fill="#e5e7eb" stroke="#4b5563" stroke-width="2"/>
+  <text x="395" y="300" text-anchor="middle" font-weight="bold" fill="#111827" transform="rotate(-90 395 300)">AHB 总线矩阵（多主设备并行访问）</text>
+
+  <line x1="310" y1="190" x2="356" y2="190" stroke="#374151" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="333" y="180" text-anchor="middle" font-size="12" fill="#374151">I/D/S</text>
+
+  <!-- DMA -->
+  <rect x="50" y="320" width="260" height="70" rx="12" fill="#e0e7ff" stroke="#4f46e5" stroke-width="2"/>
+  <text x="180" y="348" text-anchor="middle" font-weight="bold" fill="#3730a3">DMA1 / DMA2</text>
+  <text x="180" y="372" text-anchor="middle" font-size="13" fill="#374151">不经 CPU 搬运数据（进阶内容）</text>
+  <line x1="310" y1="355" x2="356" y2="355" stroke="#374151" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- clock -->
+  <rect x="50" y="420" width="260" height="130" rx="12" fill="#fef9c3" stroke="#ca8a04" stroke-width="2"/>
+  <text x="180" y="448" text-anchor="middle" font-weight="bold" fill="#854d0e">RCC 复位与时钟控制</text>
+  <text x="180" y="474" text-anchor="middle" font-size="13" fill="#374151">HSI 16 MHz 内部 RC</text>
+  <text x="180" y="496" text-anchor="middle" font-size="13" fill="#374151">HSE 8 MHz 外部晶振</text>
+  <text x="180" y="518" text-anchor="middle" font-size="13" fill="#374151">PLL → 最高 168 MHz</text>
+  <text x="180" y="540" text-anchor="middle" font-size="12" fill="#854d0e">给每条总线、每个外设供时钟</text>
+
+  <!-- memories -->
+  <rect x="480" y="95" width="230" height="70" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="595" y="122" text-anchor="middle" font-weight="bold" fill="#15803d">Flash 1 MB</text>
+  <text x="595" y="146" text-anchor="middle" font-size="13" fill="#374151">程序代码、常量（掉电保留）</text>
+  <rect x="740" y="95" width="220" height="70" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="850" y="122" text-anchor="middle" font-weight="bold" fill="#15803d">SRAM 128 KB (+64 KB CCM)</text>
+  <text x="850" y="146" text-anchor="middle" font-size="13" fill="#374151">变量、栈、堆（掉电丢失）</text>
+  <line x1="430" y1="130" x2="476" y2="130" stroke="#374151" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M430,175 L725,175 L725,130 L736,130" fill="none" stroke="#374151" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- AHB1 -->
+  <rect x="480" y="200" width="480" height="75" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+  <text x="495" y="224" font-weight="bold" fill="#c2410c">AHB1（168 MHz）</text>
+  <text x="495" y="248" font-size="13" fill="#374151">GPIOA … GPIOI（每个端口 16 个引脚）、RCC、FLASH 接口、DMA</text>
+  <text x="495" y="268" font-size="12" fill="#9a3412">Discovery 板：PD12~PD15 接 4 个 LED，PA0 接用户按键</text>
+  <line x1="430" y1="237" x2="476" y2="237" stroke="#374151" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- AHB/APB bridges -->
+  <rect x="480" y="300" width="480" height="40" rx="8" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+  <text x="720" y="325" text-anchor="middle" fill="#374151">AHB → APB 桥（降频，给慢速外设用）</text>
+  <line x1="430" y1="320" x2="476" y2="320" stroke="#374151" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="600" y1="340" x2="600" y2="376" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="840" y1="340" x2="840" y2="376" stroke="#374151" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="480" y="380" width="230" height="170" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+  <text x="595" y="406" text-anchor="middle" font-weight="bold" fill="#c2410c">APB1（最高 42 MHz）</text>
+  <text x="495" y="434" font-size="13" fill="#374151">TIM2 ~ TIM7、TIM12~14</text>
+  <text x="495" y="458" font-size="13" fill="#374151">USART2/3、UART4/5</text>
+  <text x="495" y="482" font-size="13" fill="#374151">I2C1~3、SPI2/3、CAN</text>
+  <text x="495" y="506" font-size="13" fill="#374151">DAC、PWR、看门狗</text>
+  <text x="495" y="534" font-size="12" fill="#9a3412">本教程：TIM2/3/4、USART2</text>
+
+  <rect x="740" y="380" width="220" height="170" rx="10" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+  <text x="850" y="406" text-anchor="middle" font-weight="bold" fill="#c2410c">APB2（最高 84 MHz）</text>
+  <text x="755" y="434" font-size="13" fill="#374151">TIM1/8、TIM9~11</text>
+  <text x="755" y="458" font-size="13" fill="#374151">USART1/6、SPI1</text>
+  <text x="755" y="482" font-size="13" fill="#374151">ADC1~3</text>
+  <text x="755" y="506" font-size="13" fill="#374151">SYSCFG、EXTI</text>
+  <text x="755" y="534" font-size="12" fill="#9a3412">本教程：EXTI、SYSCFG</text>
+</svg>

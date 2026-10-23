@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="640" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">存储器映射：4 GB 地址空间里，外设寄存器也只是“地址”</text>
+
+  <!-- address column -->
+  <g font-family="monospace" font-size="13" fill="#374151" text-anchor="end">
+    <text x="130" y="76">0xFFFF FFFF</text>
+    <text x="130" y="132">0xE000 0000</text>
+    <text x="130" y="232">0x6000 0000</text>
+    <text x="130" y="392">0x4000 0000</text>
+    <text x="130" y="452">0x2000 0000</text>
+    <text x="130" y="512">0x1000 0000</text>
+    <text x="130" y="572">0x0800 0000</text>
+    <text x="130" y="622">0x0000 0000</text>
+  </g>
+
+  <rect x="140" y="70" width="270" height="56" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="275" y="94" text-anchor="middle" font-weight="bold" fill="#1d4ed8">Cortex-M4 内核外设</text>
+  <text x="275" y="115" text-anchor="middle" font-size="12" fill="#374151">SysTick / NVIC / SCB（0xE000E000 起）</text>
+
+  <rect x="140" y="126" width="270" height="100" fill="#f9fafb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="275" y="182" text-anchor="middle" fill="#6b7280">保留 / FSMC 外部存储器</text>
+
+  <rect x="140" y="226" width="270" height="160" fill="#ffedd5" stroke="#ea580c" stroke-width="2"/>
+  <text x="275" y="250" text-anchor="middle" font-weight="bold" fill="#c2410c">片上外设（寄存器）</text>
+  <g font-size="13" fill="#374151">
+    <text x="155" y="280">0x5000 0000  AHB2（USB、RNG）</text>
+    <text x="155" y="306">0x4002 0000  AHB1（GPIO、RCC）</text>
+    <text x="155" y="332">0x4001 0000  APB2（EXTI、USART1）</text>
+    <text x="155" y="358">0x4000 0000  APB1（TIM2~4、USART2）</text>
+  </g>
+
+  <rect x="140" y="386" width="270" height="60" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="275" y="412" text-anchor="middle" font-weight="bold" fill="#15803d">SRAM 128 KB</text>
+  <text x="275" y="433" text-anchor="middle" font-size="12" fill="#374151">0x2000 0000 ~ 0x2001 FFFF</text>
+
+  <rect x="140" y="446" width="270" height="60" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="275" y="472" text-anchor="middle" fill="#15803d">CCM RAM 64 KB</text>
+  <text x="275" y="493" text-anchor="middle" font-size="12" fill="#374151">0x1000 0000（仅 CPU 可访问）</text>
+
+  <rect x="140" y="506" width="270" height="60" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="275" y="532" text-anchor="middle" font-weight="bold" fill="#15803d">Flash 1 MB</text>
+  <text x="275" y="553" text-anchor="middle" font-size="12" fill="#374151">0x0800 0000 ~ 0x080F FFFF</text>
+
+  <rect x="140" y="566" width="270" height="56" fill="#f3f4f6" stroke="#6b7280" stroke-width="2"/>
+  <text x="275" y="590" text-anchor="middle" fill="#374151">启动别名区</text>
+  <text x="275" y="610" text-anchor="middle" font-size="12" fill="#374151">默认映射到 Flash（BOOT0=0）</text>
+
+  <!-- zoom into GPIOD -->
+  <path d="M410,306 L520,120" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/>
+  <path d="M410,306 L520,520" fill="none" stroke="#ea580c" stroke-width="2" stroke-dasharray="6 4"/>
+
+  <rect x="520" y="60" width="450" height="470" rx="12" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+  <text x="745" y="88" text-anchor="middle" font-size="16" font-weight="bold" fill="#c2410c">放大：GPIOD 寄存器块（基地址 0x4002 0C00）</text>
+  <g font-size="13">
+    <g font-family="monospace" fill="#374151">
+      <text x="540" y="124">+0x00</text><text x="540" y="158">+0x04</text><text x="540" y="192">+0x08</text>
+      <text x="540" y="226">+0x0C</text><text x="540" y="260">+0x10</text><text x="540" y="294">+0x14</text>
+      <text x="540" y="328">+0x18</text><text x="540" y="362">+0x1C</text><text x="540" y="396">+0x20</text>
+      <text x="540" y="430">+0x24</text>
+    </g>
+    <g fill="#ffffff" stroke="#ea580c">
+      <rect x="600" y="106" width="350" height="28"/><rect x="600" y="140" width="350" height="28"/>
+      <rect x="600" y="174" width="350" height="28"/><rect x="600" y="208" width="350" height="28"/>
+      <rect x="600" y="242" width="350" height="28"/><rect x="600" y="276" width="350" height="28" fill="#fde68a"/>
+      <rect x="600" y="310" width="350" height="28" fill="#fde68a"/><rect x="600" y="344" width="350" height="28"/>
+      <rect x="600" y="378" width="350" height="28"/><rect x="600" y="412" width="350" height="28"/>
+    </g>
+    <g fill="#111827">
+      <text x="612" y="124">MODER    模式：输入/输出/复用/模拟</text>
+      <text x="612" y="158">OTYPER   输出类型：推挽/开漏</text>
+      <text x="612" y="192">OSPEEDR  输出速度</text>
+      <text x="612" y="226">PUPDR    上拉/下拉</text>
+      <text x="612" y="260">IDR      输入数据（读引脚电平）</text>
+      <text x="612" y="294">ODR      输出数据（写 1 = 高电平）</text>
+      <text x="612" y="328">BSRR     原子置位/复位</text>
+      <text x="612" y="362">LCKR     配置锁定</text>
+      <text x="612" y="396">AFRL     复用功能选择（引脚 0~7）</text>
+      <text x="612" y="430">AFRH     复用功能选择（引脚 8~15）</text>
+    </g>
+  </g>
+  <rect x="540" y="455" width="410" height="62" rx="8" fill="#ffffff" stroke="#d97706"/>
+  <text x="556" y="480" font-family="monospace" font-size="13" fill="#111827">*(volatile uint32_t *)0x40020C14 |= 1u &lt;&lt; 12;</text>
+  <text x="556" y="504" font-size="13" fill="#92400e">往 ODR 的第 12 位写 1 → PD12 输出高电平 → 绿灯亮</text>
+</svg>

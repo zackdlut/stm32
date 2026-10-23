@@ -1,0 +1,107 @@
+# STM32 从零到上手：基于 Renode 模拟器的实战教程
+
+这是一套面向 **有 C/C++ 经验、但没接触过单片机** 的开发者的 STM32 入门教程。全部例子都能在本机的 Renode 模拟器里运行，不需要买开发板；学完后换到真实硬件只需改烧录方式（第 15 章）。
+
+- 目标芯片：**STM32F407VG**（Cortex-M4F，168 MHz，1 MB Flash，192 KB RAM）
+- 目标板：**STM32F4 Discovery**（4 个 LED 接 PD12~PD15，用户按键接 PA0）
+- 工具：`arm-none-eabi-gcc`、`make`、Renode、`gdb-multiarch`
+- 每一课都有可运行代码（`examples/`）、原理图（`docs/images/`）和实际运行输出
+
+![从源代码到芯片](images/01-toolchain-flow.svg)
+
+## 学习路线
+
+```
+ 基础篇（裸寄存器）                          进阶篇（中断与外设）                    工程篇
+┌─────────────────────────┐   ┌──────────────────────────────┐   ┌──────────────────────────┐
+│ 01 环境搭建              │   │ 06 时钟树与 SysTick           │   │ 11 CMSIS 官方头文件       │
+│ 02 MCU 与寄存器          │──▶│ 07 中断、NVIC 与 EXTI         │──▶│ 12 HAL 库与 CubeMX 结构   │
+│ 03 启动过程与链接脚本    │   │ 08 UART 串口与 printf         │   │ 13 GDB 调试与故障分析     │
+│ 04 GPIO 输出：点灯       │   │ 09 串口中断 + 命令行          │   │ 14 嵌入式 C++             │
+│ 05 GPIO 输入：按键消抖   │   │ 10 定时器与 PWM               │   │ 15 走向真实硬件           │
+└─────────────────────────┘   └──────────────────────────────┘   └──────────────────────────┘
+```
+
+前 10 章刻意 **不用任何厂商库**，只用自己写的寄存器头文件，让你看清每一个比特；第 11、12 章再引入 ST 官方的 CMSIS 和 HAL，你会发现它们只是对同一批寄存器的封装。
+
+## 章节目录
+
+| 章 | 文档 | 例子 | 你会学到 |
+|----|------|------|---------|
+| 1 | [环境搭建与第一个程序](01-setup.md) | `01-hello` | 工具链、Renode、`make run` |
+| 2 | [MCU 基础：存储器映射与寄存器](02-mcu-basics.md) | `02-registers` | 地址即寄存器、位操作、`volatile` |
+| 3 | [启动过程与链接脚本](03-startup.md) | `03-startup` | 向量表、`.data/.bss`、`main` 之前 |
+| 4 | [GPIO 输出：点亮 LED](04-gpio-output.md) | `04-gpio-output` | RCC 时钟、MODER、ODR、BSRR |
+| 5 | [GPIO 输入：按键与消抖](05-gpio-input.md) | `05-gpio-input` | IDR、上下拉、抖动、轮询 |
+| 6 | [时钟树与 SysTick](06-clock-systick.md) | `06-clock-systick` | HSI/HSE/PLL、168 MHz、1 ms 节拍 |
+| 7 | [中断：NVIC 与 EXTI](07-interrupts-exti.md) | `07-exti-interrupt` | 向量表、优先级、临界区、WFI |
+| 8 | [UART 串口与 printf](08-uart.md) | `08-uart-printf` | 帧格式、波特率、newlib 重定向 |
+| 9 | [串口中断与命令行](09-uart-interrupt-cli.md) | `09-uart-irq-cli` | RXNE 中断、环形缓冲区、CLI |
+| 10 | [定时器与 PWM](10-timers-pwm.md) | `10-timer-pwm` | PSC/ARR/CCR、周期中断、调光 |
+| 11 | [CMSIS 官方头文件](11-cmsis.md) | `11-cmsis` | `stm32f4xx.h`、`core_cm4.h`、`SystemInit` |
+| 12 | [HAL 库](12-hal.md) | `12-hal` | 句柄、MSP、回调、CubeMX 工程结构 |
+| 13 | [调试与故障分析](13-debugging.md) | `13-debug-fault` | GDB、HardFault、CFSR、addr2line |
+| 14 | [嵌入式 C++](14-cpp.md) | `14-cpp` | 模板、`constexpr`、RAII、零开销 |
+| 15 | [走向真实硬件](15-real-hardware.md) | — | 烧录、调试探头、仿真与实物差异、进阶路线 |
+| 附录 A | [速查表](appendix-a-cheatsheet.md) | — | 地址、寄存器、公式、命令 |
+| 附录 B | [Renode 使用说明、局限与 FAQ](appendix-b-renode.md) | — | 脚本、模拟按键/串口、常见问题 |
+
+## 怎么使用这套教程
+
+1. **按顺序读**。每章开头有“本章目标”，结尾有“练习”和“常见坑”。
+2. **边读边跑**。每章都给出命令和 **真实的运行输出**（在本机 Renode 1.17.0 上跑出来的），你的输出应当一致。
+3. **改代码再跑**。练习题都可以直接在例子目录里改，`make run` 立即看到结果。
+4. **遇到不懂的寄存器**，查附录 A 或 ST 参考手册 RM0090 对应章节。
+
+每一课的标准操作：
+
+```bash
+cd examples/04-gpio-output   # 进入某一课
+make run                     # 编译 + 在 Renode 里运行 + 打印串口输出
+make disasm                  # 生成反汇编 build/firmware.lst
+make sim                     # 交互式运行（串口走 TCP 3456，GDB 走 3333）
+make clean                   # 清理
+```
+
+## 前置知识
+
+- 必须：C 语言（指针、位运算、结构体、`static`/`extern`）、会用 Linux 命令行和 `make`
+- 有帮助：C++（第 14 章）、一点数字电路常识（高/低电平、上拉电阻）
+- 不需要：汇编、电子电路设计、任何 STM32 经验
+
+## 目录结构
+
+```
+stm32/
+├── docs/                      本教程
+│   ├── README.md
+│   ├── 01-setup.md … 15-real-hardware.md
+│   ├── appendix-*.md
+│   └── images/*.svg           原理图
+└── examples/
+    ├── common/                所有课共用
+    │   ├── stm32f407.h        自己写的寄存器定义（第 2 章讲）
+    │   ├── startup.c          启动代码与向量表（第 3 章讲）
+    │   ├── stm32f407.ld       链接脚本（第 3 章讲）
+    │   ├── syscalls.c         newlib 系统调用（第 8 章讲）
+    │   ├── drivers/           从各课提炼出的小驱动：gpio/uart/systick/board
+    │   ├── lesson.mk          公共 Makefile 规则
+    │   ├── board.repl/.resc   Renode 板级描述与启动脚本
+    │   ├── run.sh             无界面运行并收集串口输出
+    │   └── sim.sh             交互式运行
+    ├── 01-hello … 14-cpp/     每课一个目录：main.c + Makefile (+ stimulus.resc)
+    ├── third_party/fetch.sh   下载 CMSIS / HAL（第 11 章起需要）
+    └── stm32f407-renode/      最早的冒烟测试工程
+```
+
+## 参考资料（建议下载备查）
+
+| 文档 | 内容 |
+|------|------|
+| RM0090 Reference Manual | STM32F405/407 全部外设寄存器，**最常翻** |
+| DS8626 Datasheet (STM32F407xx) | 引脚复用表（AF 表）、电气参数 |
+| PM0214 Programming Manual | Cortex-M4 内核：指令、NVIC、SysTick、故障寄存器 |
+| UM1472 User Manual | STM32F4 Discovery 板原理图与接线 |
+| Joseph Yiu《The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors》 | 内核原理最好的书 |
+
+准备好了就从 [第 1 章：环境搭建](01-setup.md) 开始。

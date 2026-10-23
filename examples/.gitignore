@@ -1,0 +1,12 @@
+build/
+
+# Fetched by third_party/fetch.sh
+third_party/cmsis-core/
+third_party/cmsis-device-f4/
+third_party/stm32f4xx-hal-driver/
+
+# stm32f407-renode builds in place
+stm32f407-renode/firmware.elf
+stm32f407-renode/firmware.map
+stm32f407-renode/uart.log
+stm32f407-renode/renode.log

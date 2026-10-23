@@ -1,0 +1,34 @@
+// STM32F4 Discovery as used by the tutorial.
+//
+// Renode's stock description only wires the green LED (PD12). The real board
+// also has orange PD13, red PD14 and blue PD15, so add them here.
+
+using "platforms/boards/stm32f4_discovery-kit.repl"
+
+OrangeLED: Miscellaneous.LED @ gpioPortD
+RedLED: Miscellaneous.LED @ gpioPortD
+BlueLED: Miscellaneous.LED @ gpioPortD
+
+gpioPortD:
+    13 -> OrangeLED@0
+    14 -> RedLED@0
+    15 -> BlueLED@0
+
+// After reset APB1 runs at 16 MHz (HSI, prescaler /1), so TIM2-TIM5 count at
+// 16 MHz. Set it at construction time: the compare channels inherit it.
+timer2:
+    frequency: 16000000
+
+timer3:
+    frequency: 16000000
+
+timer4:
+    frequency: 16000000
+
+timer5:
+    frequency: 16000000
+
+// Renode routes pin N of every port straight to EXTI line N and has no SYSCFG
+// model. Back SYSCFG with plain memory so EXTICR writes read back like on silicon.
+syscfg: Memory.ArrayMemory @ sysbus 0x40013800
+    size: 0x400

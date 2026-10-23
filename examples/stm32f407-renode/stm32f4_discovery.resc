@@ -1,0 +1,18 @@
+using sysbus
+
+$name?="STM32F4_Discovery"
+mach create $name
+machine LoadPlatformDescription @platforms/boards/stm32f4_discovery-kit.repl
+
+cpu PerformanceInMips 125
+
+$bin?=@firmware.elf
+$uartLog?=@uart.log
+
+sysbus LoadELF $bin
+sysbus.usart2 CreateFileBackend $uartLog true
+
+logLevel -1 gpioPortD.UserLED
+
+emulation RunFor "0.05"
+quit

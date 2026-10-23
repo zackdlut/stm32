@@ -1,0 +1,27 @@
+# Button script for lesson 5, in virtual time.
+
+emulation RunFor "0.05"
+
+# 1) A clean press held for 100 ms.
+gpioPortA.UserButton Press
+emulation RunFor "0.1"
+gpioPortA.UserButton Release
+emulation RunFor "0.1"
+
+# 2) A bouncy press: the contact chatters for about 10 ms before settling.
+gpioPortA.UserButton Press
+emulation RunFor "0.002"
+gpioPortA.UserButton Release
+emulation RunFor "0.0015"
+gpioPortA.UserButton Press
+emulation RunFor "0.003"
+gpioPortA.UserButton Release
+emulation RunFor "0.001"
+gpioPortA.UserButton Press
+emulation RunFor "0.002"
+gpioPortA.UserButton Release
+emulation RunFor "0.001"
+gpioPortA.UserButton Press
+emulation RunFor "0.1"
+gpioPortA.UserButton Release
+emulation RunFor "0.1"

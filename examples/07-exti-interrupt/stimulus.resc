@@ -1,0 +1,33 @@
+# Button script for lesson 7, in virtual time.
+
+emulation RunFor "0.1"
+
+# 1) A clean press.
+gpioPortA.UserButton Press
+emulation RunFor "0.1"
+gpioPortA.UserButton Release
+emulation RunFor "0.2"
+
+# 2) A bouncy press: three extra edges within 5 ms.
+gpioPortA.UserButton Press
+emulation RunFor "0.001"
+gpioPortA.UserButton Release
+emulation RunFor "0.0005"
+gpioPortA.UserButton Press
+emulation RunFor "0.001"
+gpioPortA.UserButton Release
+emulation RunFor "0.0005"
+gpioPortA.UserButton Press
+emulation RunFor "0.001"
+gpioPortA.UserButton Release
+emulation RunFor "0.0005"
+gpioPortA.UserButton Press
+emulation RunFor "0.1"
+gpioPortA.UserButton Release
+emulation RunFor "0.2"
+
+# 3) Another clean press.
+gpioPortA.UserButton Press
+emulation RunFor "0.1"
+gpioPortA.UserButton Release
+emulation RunFor "0.1"

@@ -1,0 +1,56 @@
+:name: STM32F4 Discovery (tutorial)
+:description: Board setup shared by every lesson. Expects $bin to point at the ELF.
+
+using sysbus
+
+$name?="stm32f4-discovery"
+mach create $name
+machine LoadPlatformDescription $ORIGIN/board.repl
+
+# Match a freshly reset STM32F407: the CPU runs from the 16 MHz HSI oscillator,
+# so SysTick also counts at 16 MHz (the timers are set in board.repl).
+cpu PerformanceInMips 16
+nvic Frequency 16000000
+
+# Renode's RCC model reports PLL lock but does not retime anything. Whenever the
+# firmware writes RCC_CFGR, recompute HCLK and the APB1 timer clock from the
+# real register values and apply them, as the clock tree would on silicon.
+set clock_hook
+"""
+cfgr = value
+sw = cfgr & 3
+if sw == 2:
+    pll = self.ReadDoubleWord(0x40023804)
+    src = 8000000 if pll & (1 << 22) else 16000000
+    m = pll & 0x3F
+    n = (pll >> 6) & 0x1FF
+    p = (((pll >> 16) & 3) + 1) * 2
+    sysclk = src // m * n // p
+elif sw == 1:
+    sysclk = 8000000
+else:
+    sysclk = 16000000
+ahb_div = [1, 1, 1, 1, 1, 1, 1, 1, 2, 4, 8, 16, 64, 128, 256, 512][(cfgr >> 4) & 0xF]
+apb1_div = [1, 1, 1, 1, 2, 4, 8, 16][(cfgr >> 10) & 7]
+hclk = sysclk // ahb_div
+pclk1 = hclk // apb1_div
+tim_clk = pclk1 if apb1_div == 1 else pclk1 * 2
+machine = cpu.GetMachine()
+machine['sysbus.nvic'].Frequency = hclk
+for t in ['timer2', 'timer3', 'timer4']:
+    machine['sysbus.' + t].Frequency = tim_clk
+cpu.PerformanceInMips = max(1, hclk // 1000000)
+"""
+sysbus AddWatchpointHook 0x40023808 DoubleWord Write $clock_hook
+
+# Show "LED state changed" messages for the four user LEDs.
+logLevel -1 gpioPortD.UserLED
+logLevel -1 gpioPortD.OrangeLED
+logLevel -1 gpioPortD.RedLED
+logLevel -1 gpioPortD.BlueLED
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+runMacro $reset

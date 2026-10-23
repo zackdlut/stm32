@@ -1,0 +1,7 @@
+emulation RunFor "0.25"
+gpioPortA.UserButton Press
+emulation RunFor "0.05"
+gpioPortA.UserButton Release
+emulation RunFor "0.1"
+sysbus.usart2 WriteLine "hello HAL"
+emulation RunFor "0.6"

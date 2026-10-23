@@ -1,0 +1,4 @@
+# The green LED switches 200 times per second under PWM; keep the log readable.
+logLevel 3 gpioPortD.UserLED
+
+emulation RunFor "1.5"

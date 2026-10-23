@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Noto Serif CJK SC, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#374151"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="480" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">环形缓冲区：中断里写、main() 里读，不需要加锁</text>
+
+  <!-- producer -->
+  <rect x="20" y="70" width="190" height="90" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+  <text x="115" y="96" text-anchor="middle" font-weight="bold" fill="#991b1b">生产者</text>
+  <text x="115" y="120" text-anchor="middle" font-size="12" fill="#111827">USART2_IRQHandler</text>
+  <text x="115" y="142" text-anchor="middle" font-size="12" fill="#111827">只修改 head</text>
+
+  <!-- consumer -->
+  <rect x="790" y="70" width="190" height="90" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="885" y="96" text-anchor="middle" font-weight="bold" fill="#15803d">消费者</text>
+  <text x="885" y="120" text-anchor="middle" font-size="12" fill="#111827">main() 主循环</text>
+  <text x="885" y="142" text-anchor="middle" font-size="12" fill="#111827">只修改 tail</text>
+
+  <!-- array of 8 slots: x from 260, width 60 -->
+  <text x="500" y="84" text-anchor="middle" font-size="13" fill="#374151">data[8]（示意，第 9 课实际为 64）</text>
+  <g stroke="#374151" stroke-width="2">
+    <rect x="260" y="100" width="60" height="50" fill="#f3f4f6"/>
+    <rect x="320" y="100" width="60" height="50" fill="#fde68a"/>
+    <rect x="380" y="100" width="60" height="50" fill="#fde68a"/>
+    <rect x="440" y="100" width="60" height="50" fill="#fde68a"/>
+    <rect x="500" y="100" width="60" height="50" fill="#fde68a"/>
+    <rect x="560" y="100" width="60" height="50" fill="#f3f4f6"/>
+    <rect x="620" y="100" width="60" height="50" fill="#f3f4f6"/>
+    <rect x="680" y="100" width="60" height="50" fill="#f3f4f6"/>
+  </g>
+  <g font-size="16" text-anchor="middle" fill="#111827" font-family="monospace">
+    <text x="350" y="131">'l'</text><text x="410" y="131">'e'</text><text x="470" y="131">'d'</text><text x="530" y="131">' '</text>
+  </g>
+  <g font-size="11" text-anchor="middle" fill="#6b7280">
+    <text x="290" y="166">[0]</text><text x="350" y="166">[1]</text><text x="410" y="166">[2]</text><text x="470" y="166">[3]</text>
+    <text x="530" y="166">[4]</text><text x="590" y="166">[5]</text><text x="650" y="166">[6]</text><text x="710" y="166">[7]</text>
+  </g>
+  <!-- pointers -->
+  <line x1="350" y1="210" x2="350" y2="174" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <text x="350" y="228" text-anchor="middle" font-size="13" fill="#15803d">tail = 9</text>
+  <text x="350" y="246" text-anchor="middle" font-size="11" fill="#15803d">9 &amp; 7 = 1</text>
+  <line x1="590" y1="210" x2="590" y2="174" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+  <text x="590" y="228" text-anchor="middle" font-size="13" fill="#991b1b">head = 13</text>
+  <text x="590" y="246" text-anchor="middle" font-size="11" fill="#991b1b">13 &amp; 7 = 5</text>
+  <!-- wrap -->
+  <path d="M740,125 C770,125 770,280 500,280 C230,280 230,125 256,125" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="500" y="298" text-anchor="middle" font-size="12" fill="#6b7280">写到末尾后回到开头（下标对 8 取模）</text>
+
+  <path d="M210,115 L254,115" fill="none" stroke="#dc2626" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <path d="M746,115 L786,115" fill="none" stroke="#16a34a" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- rules -->
+  <rect x="20" y="320" width="470" height="145" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-width="2"/>
+  <text x="36" y="346" font-weight="bold" fill="#111827">自由增长的下标</text>
+  <g font-size="13" fill="#111827" xml:space="preserve">
+    <text x="36" y="372"><tspan font-family="monospace">count = head - tail</tspan>   → 4 个字节待读</text>
+    <text x="36" y="396"><tspan font-family="monospace">空：count == 0</tspan>   <tspan font-family="monospace">满：count == SIZE</tspan></text>
+    <text x="36" y="420"><tspan font-family="monospace">下标 = head &amp; (SIZE - 1)</tspan>  要求 SIZE 是 2 的幂</text>
+    <text x="36" y="446" font-size="12" fill="#6b7280">无符号减法在 32 位回绕后仍然正确</text>
+  </g>
+
+  <rect x="510" y="320" width="470" height="145" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="526" y="346" font-weight="bold" fill="#991b1b">为什么不需要关中断？</text>
+  <g font-size="13" fill="#111827">
+    <text x="526" y="372">• 每个下标只有一方写：head 归中断，tail 归 main()</text>
+    <text x="526" y="396">• 32 位对齐读写在 Cortex-M 上是原子的</text>
+    <text x="526" y="420">• 先写数据、再更新下标（编译器屏障保证顺序）</text>
+    <text x="526" y="446" font-size="12" fill="#6b7280">两个生产者或两个消费者时就必须加锁</text>
+  </g>
+</svg>

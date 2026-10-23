@@ -1,0 +1,9 @@
+emulation RunFor "0.15"
+gpioPortA.UserButton Press
+emulation RunFor "0.05"
+gpioPortA.UserButton Release
+emulation RunFor "0.15"
+gpioPortA.UserButton Press
+emulation RunFor "0.05"
+gpioPortA.UserButton Release
+emulation RunFor "0.4"
