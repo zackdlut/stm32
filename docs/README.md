@@ -82,6 +82,7 @@ cd examples/04-gpio-output   # 进入某一课
 make run                     # 编译 + 在 Renode 里运行 + 打印串口输出
 make disasm                  # 生成反汇编 build/firmware.lst
 make sim                     # 交互式运行（串口走 TCP 3456，GDB 走 3333）
+make sim GUI=1               # 同上，监视器和串口终端开成窗口
 make clean                   # 清理
 ```
 

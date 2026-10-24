@@ -134,17 +134,30 @@ STIMULUS=scenario-corrupt.resc ../common/run.sh bootloader/build/firmware.elf
 ## B.5 sim.sh：交互式运行
 
 ```bash
-exec "${renode}" --disable-gui --console \
+exec "${renode}" "${ui_args[@]}" \
     -e "\$bin=@${elf}" \
     -e "i @${common}/board.resc" \
     -e "emulation CreateServerSocketTerminal 3456 \"uart\" false" \
     -e "connector Connect sysbus.usart2 uart" \
+    "${analyzer[@]}" \
     -e "machine StartGdbServer 3333"
 ```
 
+- 默认 `ui_args` 是 `--disable-gui --console`：不开窗口，监视器就在当前终端里
 - USART2 连接到 TCP 端口 3456：`nc localhost 3456`、`telnet localhost 3456` 或 PuTTY（Raw 模式）都可以连
 - GDB 服务器监听 3333：`make gdb`
 - 机器启动后处于暂停状态，在 Renode 监视器中输入 `start` 开始运行。如果用 GDB 连接，在 GDB 中 `continue` 也会让它运行
+
+### 图形界面：`make sim GUI=1`
+
+`GUI=1` 时去掉 `--disable-gui --console`，并多执行一条 `showAnalyzer sysbus.usart2`：
+
+- 监视器变成一个独立窗口，`start` / `pause` / `quit` 在窗口里输入
+- `showAnalyzer` 为 USART2 打开一个终端窗口，固件的输出直接显示在里面；在窗口里按键会立刻逐字符发给固件
+- TCP 3456 和 GDB 3333 不变，可以和窗口同时使用
+- 日志（LED 变化、警告等）仍然打印在启动 Renode 的终端里
+
+需要图形显示：Linux 桌面，或 Windows 11 的 WSLg（`echo $DISPLAY` 不为空）。别的串口也能这样看，例如在监视器里输入 `showAnalyzer sysbus.usart1`。
 
 ## B.6 编写激励脚本
 
@@ -261,7 +274,7 @@ deactivate
 
 **`make sim` 后 Renode 立即退出**
 
-在非交互的环境（例如通过管道或某些 IDE 任务）里运行时，Renode 读到 stdin 的 EOF 就会退出。请在真正的终端中运行 `make sim`。
+在非交互的环境（例如通过管道或某些 IDE 任务）里运行时，Renode 读到 stdin 的 EOF 就会退出。请在真正的终端中运行 `make sim`，或者改用 `make sim GUI=1`，这时监视器在窗口里，不读 stdin。
 
 **提示端口 3333 或 3456 被占用**
 

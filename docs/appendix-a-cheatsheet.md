@@ -250,6 +250,7 @@ TIMx->SR = ~TIM_SR_UIF;                     /* rc_w0：写 0 清零 */
 | `make run` | 在 Renode 中无界面运行，打印 LED 变化和串口输出 |
 | `make run V=1` | 同上，并显示 Renode 警告（未模拟的寄存器等） |
 | `make sim` | 交互式 Renode：串口在 TCP 3456，GDB 在 3333 |
+| `make sim GUI=1` | 同上，监视器和 USART2 终端各开一个窗口 |
 | `make gdb` | 启动 GDB 并连接 `:3333` |
 | `make disasm` | 生成带源码的反汇编 `build/firmware.lst` |
 | `make size` | 各段大小 |

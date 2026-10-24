@@ -75,8 +75,9 @@ run: all
 	@LOG_FILTER='$(LOG_FILTER)' $(COMMON_DIR)/run.sh $(ELF) $(RUN_TIME)
 
 # Interactive Renode: USART2 on TCP port 3456, GDB server on port 3333.
+# GUI=1 opens the monitor and a USART2 terminal as windows instead.
 sim: all
-	@$(COMMON_DIR)/sim.sh $(ELF)
+	@GUI='$(GUI)' $(COMMON_DIR)/sim.sh $(ELF)
 
 gdb: all
 	gdb-multiarch -q $(ELF) -ex "target remote :3333"

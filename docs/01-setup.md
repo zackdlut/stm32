@@ -211,6 +211,7 @@ LDFLAGS  += $(ARCH) -T$(LDSCRIPT) --specs=nano.specs --specs=nosys.specs \
 | `make run`     | 编译并在 Renode 里无界面运行 `RUN_TIME` 秒虚拟时间，打印串口输出 |
 | `make run V=1` | 同上，并显示 Renode 的警告（访问了未模拟的寄存器等）               |
 | `make sim`     | 交互式 Renode：串口在 TCP 3456，GDB 在 3333                        |
+| `make sim GUI=1` | 同上，但监视器和串口终端各开一个窗口                             |
 | `make gdb`     | 连接到 `make sim` 启动的 GDB 服务器                              |
 | `make disasm`  | 生成带源码的反汇编 `build/firmware.lst`                          |
 | `make size`    | 各段大小                                                           |
@@ -253,6 +254,14 @@ nc localhost 3456
 
 回到 Renode 终端输入 `start`，`nc` 那边就会出现 `Hello, STM32F407!`。`pause` 暂停，`quit` 退出。第 9 章会用这种方式和固件里的命令行交互。
 
+有图形桌面时（Windows 11 的 WSLg、Linux 桌面）也可以用图形界面：
+
+```bash
+make sim GUI=1
+```
+
+Renode 会打开两个窗口：监视器窗口（在这里输入 `start` / `pause` / `quit`）和 USART2 终端窗口（串口输出直接显示在里面，也可以在里面打字）。这时不需要再开 `nc`，不过 TCP 3456 和 GDB 3333 照样可用。LED 变化等日志仍打印在运行 `make` 的终端里。Renode 的图形界面不画开发板，LED 和按键没有图形控件。
+
 ## 练习
 
 1. 把闪烁次数改成 10 次，把 `RUN_TIME` 改成 `1`，重新 `make run`。
@@ -266,6 +275,7 @@ nc localhost 3456
 - **`renode: command not found`**：Renode 不在 `PATH` 里；portable 版需要自己建符号链接或把目录加入 `PATH`。
 - **串口输出为空**：看 `build/renode.log` 的最后几行，常见原因是固件跑飞（`CPU abort`）或运行时间太短。
 - **`make sim` 后直接退出**：Renode 交互模式需要一个真正的终端作为标准输入；不要用管道把它的输入接到 `/dev/null`。
+- **`make sim GUI=1` 没有窗口**：检查 `echo $DISPLAY` 是否为空。WSL 需要 Windows 11（或 Windows 10 21H2 以上）自带的 WSLg；纯命令行环境请用不带 `GUI=1` 的 `make sim`。
 
 ---
 
