@@ -12,15 +12,15 @@
 
 在单片机上：
 
-| | PC 程序 | STM32 固件 |
-|--|--------|-----------|
-| CPU | x86-64 | ARM Cortex-M4（Thumb-2 指令集） |
-| 编译器 | `gcc` | `arm-none-eabi-gcc`（**交叉编译器**：在 x86 上生成 ARM 代码） |
-| 操作系统 | Linux | **没有**，你的程序就是唯一的软件 |
-| 程序从哪开始 | OS 调用 `main` | 芯片复位后从 Flash 固定地址取指（第 3 章） |
-| 内存 | 虚拟内存，几 GB | 物理地址，1 MB Flash + 128 KB RAM |
-| `printf` 输出到 | 终端 | 你自己实现：通常发到串口（第 8 章） |
-| 运行方式 | 直接运行 | 烧进芯片 Flash，或者 **在模拟器里运行** |
+|                   | PC 程序          | STM32 固件                                                            |
+| ----------------- | ---------------- | --------------------------------------------------------------------- |
+| CPU               | x86-64           | ARM Cortex-M4（Thumb-2 指令集）                                       |
+| 编译器            | `gcc`          | `arm-none-eabi-gcc`（**交叉编译器**：在 x86 上生成 ARM 代码） |
+| 操作系统          | Linux            | **没有**，你的程序就是唯一的软件                                |
+| 程序从哪开始      | OS 调用 `main` | 芯片复位后从 Flash 固定地址取指（第 3 章）                            |
+| 内存              | 虚拟内存，几 GB  | 物理地址，1 MB Flash + 128 KB RAM                                     |
+| `printf` 输出到 | 终端             | 你自己实现：通常发到串口（第 8 章）                                   |
+| 运行方式          | 直接运行         | 烧进芯片 Flash，或者 **在模拟器里运行**                         |
 
 `arm-none-eabi` 的含义：目标是 ARM，`none` 表示没有操作系统，`eabi` 是 ARM 的嵌入式调用约定。
 
@@ -164,14 +164,14 @@ int main(void)
 
 看起来和 PC 程序差不多，但有几处“嵌入式特色”，后面的章节会一一拆开：
 
-| 代码 | 含义 | 在哪章讲 |
-|------|------|---------|
-| `board_init_leds()` | 打开 GPIOD 时钟，把 PD12~15 设为输出 | 第 4 章 |
-| `uart_init(HSI_HZ, 115200)` | 按 16 MHz 时钟配置串口 2 为 115200 波特 | 第 8 章 |
-| `printf` | newlib 的 printf，最后调用我们写的 `__io_putchar` 发到串口 | 第 8 章 |
-| `LED_PORT->ODR` | 读 GPIOD 的输出数据寄存器 | 第 2、4 章 |
-| `busy_delay` 里的 `volatile` | 防止编译器把空循环优化掉 | 第 2 章 |
-| 结尾 `for (;;)` | `main` 不能返回：没有操作系统可以返回 | 第 3 章 |
+| 代码                             | 含义                                                         | 在哪章讲   |
+| -------------------------------- | ------------------------------------------------------------ | ---------- |
+| `board_init_leds()`            | 打开 GPIOD 时钟，把 PD12~15 设为输出                         | 第 4 章    |
+| `uart_init(HSI_HZ, 115200)`    | 按 16 MHz 时钟配置串口 2 为 115200 波特                      | 第 8 章    |
+| `printf`                       | newlib 的 printf，最后调用我们写的 `__io_putchar` 发到串口 | 第 8 章    |
+| `LED_PORT->ODR`                | 读 GPIOD 的输出数据寄存器                                    | 第 2、4 章 |
+| `busy_delay` 里的 `volatile` | 防止编译器把空循环优化掉                                     | 第 2 章    |
+| 结尾 `for (;;)`                | `main` 不能返回：没有操作系统可以返回                      | 第 3 章    |
 
 ## 1.5 构建系统
 
@@ -193,28 +193,28 @@ LDFLAGS  += $(ARCH) -T$(LDSCRIPT) --specs=nano.specs --specs=nosys.specs \
             -Wl,--gc-sections -Wl,-Map=$(BUILD)/$(TARGET).map -Wl,--print-memory-usage
 ```
 
-| 选项 | 作用 |
-|------|------|
-| `-mcpu=cortex-m4 -mthumb` | 生成 Cortex-M4 的 Thumb-2 指令（M 系列只支持 Thumb） |
-| `-mfpu=fpv4-sp-d16 -mfloat-abi=hard` | 使用片上单精度 FPU，浮点参数走 FPU 寄存器 |
-| `-ffunction-sections -fdata-sections` + `--gc-sections` | 每个函数单独一个段，链接时删掉没用到的，减小体积 |
-| `-T stm32f407.ld` | 链接脚本：告诉链接器 Flash/RAM 在哪（第 3 章） |
-| `--specs=nano.specs` | 使用精简版 C 库 newlib-nano（printf 默认不支持 `%f`） |
-| `--specs=nosys.specs` | 系统调用用空实现；我们在 `syscalls.c` 里覆盖需要的几个 |
-| `-g3` | 带完整调试信息（不会进入 .bin，只在 .elf 里） |
+| 选项                                                        | 作用                                                     |
+| ----------------------------------------------------------- | -------------------------------------------------------- |
+| `-mcpu=cortex-m4 -mthumb`                                 | 生成 Cortex-M4 的 Thumb-2 指令（M 系列只支持 Thumb）     |
+| `-mfpu=fpv4-sp-d16 -mfloat-abi=hard`                      | 使用片上单精度 FPU，浮点参数走 FPU 寄存器                |
+| `-ffunction-sections -fdata-sections` + `--gc-sections` | 每个函数单独一个段，链接时删掉没用到的，减小体积         |
+| `-T stm32f407.ld`                                         | 链接脚本：告诉链接器 Flash/RAM 在哪（第 3 章）           |
+| `--specs=nano.specs`                                      | 使用精简版 C 库 newlib-nano（printf 默认不支持 `%f`）  |
+| `--specs=nosys.specs`                                     | 系统调用用空实现；我们在 `syscalls.c` 里覆盖需要的几个 |
+| `-g3`                                                     | 带完整调试信息（不会进入 .bin，只在 .elf 里）            |
 
 常用目标：
 
-| 命令 | 作用 |
-|------|------|
-| `make` | 只编译，生成 `build/firmware.elf` 和 `.bin` |
-| `make run` | 编译并在 Renode 里无界面运行 `RUN_TIME` 秒虚拟时间，打印串口输出 |
-| `make run V=1` | 同上，并显示 Renode 的警告（访问了未模拟的寄存器等） |
-| `make sim` | 交互式 Renode：串口在 TCP 3456，GDB 在 3333 |
-| `make gdb` | 连接到 `make sim` 启动的 GDB 服务器 |
-| `make disasm` | 生成带源码的反汇编 `build/firmware.lst` |
-| `make size` | 各段大小 |
-| `make clean` | 删除 `build/` |
+| 命令             | 作用                                                               |
+| ---------------- | ------------------------------------------------------------------ |
+| `make`         | 只编译，生成 `build/firmware.elf` 和 `.bin`                    |
+| `make run`     | 编译并在 Renode 里无界面运行 `RUN_TIME` 秒虚拟时间，打印串口输出 |
+| `make run V=1` | 同上，并显示 Renode 的警告（访问了未模拟的寄存器等）               |
+| `make sim`     | 交互式 Renode：串口在 TCP 3456，GDB 在 3333                        |
+| `make gdb`     | 连接到 `make sim` 启动的 GDB 服务器                              |
+| `make disasm`  | 生成带源码的反汇编 `build/firmware.lst`                          |
+| `make size`    | 各段大小                                                           |
+| `make clean`   | 删除 `build/`                                                    |
 
 `.elf` 是带地址和符号的完整镜像，模拟器和调试器用它；`.bin` 是纯二进制，内容就是要写进 Flash 的字节，烧录真板时会用到。
 
