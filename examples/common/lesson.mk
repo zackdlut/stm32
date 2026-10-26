@@ -3,9 +3,16 @@
 #
 #     SRCS := main.c
 #     include ../common/lesson.mk
+#
+# BOARD selects the target board:
+#   disco  STM32F4 Discovery, STM32F407VG (default, the whole tutorial)
+#   dkx    LCSC "Dikuoxing" STM32F103C8T6 (appendix C). Lessons that support
+#          it keep their F103 sources in dkx/ and switch SRCS on $(BOARD).
 
 COMMON_DIR := $(dir $(lastword $(MAKEFILE_LIST)))
 COMMON_DIR := $(COMMON_DIR:/=)
+
+BOARD ?= disco
 
 PREFIX  ?= arm-none-eabi-
 CC      := $(PREFIX)gcc
@@ -15,18 +22,37 @@ OBJDUMP := $(PREFIX)objdump
 SIZE    := $(PREFIX)size
 
 TARGET   ?= firmware
-BUILD    ?= build
 RUN_TIME ?= 1
 
-STARTUP ?= $(COMMON_DIR)/startup.c
-SRCS += $(STARTUP) $(COMMON_DIR)/syscalls.c
+ifeq ($(BOARD),disco)
+BUILD    ?= build
+STARTUP  ?= $(COMMON_DIR)/startup.c
 LDSCRIPT ?= $(COMMON_DIR)/stm32f407.ld
+ARCH     := -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+CPPFLAGS += -I$(COMMON_DIR) -I. -DSTM32F407xx
+SIM_RESC := $(COMMON_DIR)/board.resc
+SIM_UART := usart2
+STIMULUS ?= stimulus.resc
+else ifeq ($(BOARD),dkx)
+BOARD_DIR := $(COMMON_DIR)/dkx
+BUILD    ?= build-dkx
+STARTUP  ?= $(BOARD_DIR)/startup.c
+LDSCRIPT ?= $(BOARD_DIR)/stm32f103c8.ld
+ARCH     := -mcpu=cortex-m3 -mthumb
+CPPFLAGS += -I$(BOARD_DIR) -I. -DSTM32F103xB
+SIM_RESC := $(BOARD_DIR)/board.resc
+SIM_UART := usart1
+# A dkx/stimulus.resc wins; button-only scripts are shared with the F407 version.
+STIMULUS ?= $(firstword $(wildcard dkx/stimulus.resc) stimulus.resc)
+else
+$(error Unknown BOARD '$(BOARD)': use disco or dkx)
+endif
 
-ARCH := -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+SRCS += $(STARTUP) $(COMMON_DIR)/syscalls.c
 
 OPT ?= -O2
 
-CPPFLAGS += -I$(COMMON_DIR) -I. -DSTM32F407xx -MMD -MP
+CPPFLAGS += -MMD -MP
 COMMON_FLAGS := $(ARCH) $(OPT) -g3 -Wall -Wextra -ffunction-sections -fdata-sections
 CFLAGS   += $(COMMON_FLAGS) -std=c11
 CXXFLAGS += $(COMMON_FLAGS) -std=c++17 -fno-exceptions -fno-rtti -fno-threadsafe-statics
@@ -37,10 +63,25 @@ LDFLAGS  += $(ARCH) -L$(COMMON_DIR) -T$(LDSCRIPT) --specs=nano.specs --specs=nos
 # in lesson 14 needs nothing from that library.
 LINKER := $(CC)
 
-OBJS := $(addprefix $(BUILD)/,$(notdir $(addsuffix .o,$(basename $(SRCS)))))
-vpath %.c   $(sort $(dir $(SRCS)))
-vpath %.cpp $(sort $(dir $(SRCS)))
-vpath %.s   $(sort $(dir $(SRCS)))
+# One explicit rule per source file. A pattern rule would look for main.c in
+# the current directory first and build the F407 file for BOARD=dkx.
+obj_of = $(BUILD)/$(notdir $(basename $(1))).o
+OBJS := $(foreach src,$(SRCS),$(call obj_of,$(src)))
+
+define c_rule
+$(call obj_of,$(1)): $(1) | $(BUILD)
+	$$(CC) $$(CPPFLAGS) $$(CFLAGS) -c $$< -o $$@
+endef
+
+define cxx_rule
+$(call obj_of,$(1)): $(1) | $(BUILD)
+	$$(CXX) $$(CPPFLAGS) $$(CXXFLAGS) -c $$< -o $$@
+endef
+
+define asm_rule
+$(call obj_of,$(1)): $(1) | $(BUILD)
+	$$(CC) $$(ARCH) -c $$< -o $$@
+endef
 
 ELF := $(BUILD)/$(TARGET).elf
 
@@ -48,17 +89,12 @@ ELF := $(BUILD)/$(TARGET).elf
 
 all: $(ELF) $(BUILD)/$(TARGET).bin
 
+$(foreach src,$(filter %.c,$(SRCS)),$(eval $(call c_rule,$(src))))
+$(foreach src,$(filter %.cpp,$(SRCS)),$(eval $(call cxx_rule,$(src))))
+$(foreach src,$(filter %.s,$(SRCS)),$(eval $(call asm_rule,$(src))))
+
 $(BUILD):
 	@mkdir -p $@
-
-$(BUILD)/%.o: %.c | $(BUILD)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD)/%.o: %.cpp | $(BUILD)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
-
-$(BUILD)/%.o: %.s | $(BUILD)
-	$(CC) $(ARCH) -c $< -o $@
 
 $(ELF): $(OBJS) $(LDSCRIPT)
 	$(LINKER) $(OBJS) $(LDFLAGS) -o $@
@@ -70,14 +106,17 @@ $(BUILD)/$(TARGET).bin: $(ELF)
 # Header dependencies written by -MMD: editing a .h rebuilds the objects using it.
 -include $(OBJS:.o=.d)
 
-# Run headless in Renode for RUN_TIME seconds of virtual time and print USART2.
-run: all
-	@LOG_FILTER='$(LOG_FILTER)' $(COMMON_DIR)/run.sh $(ELF) $(RUN_TIME)
+SIM_ENV = RESC='$(SIM_RESC)' UART='$(SIM_UART)'
 
-# Interactive Renode: USART2 on TCP port 3456, GDB server on port 3333.
-# GUI=1 opens the monitor and a USART2 terminal as windows instead.
+# Run headless in Renode for RUN_TIME seconds of virtual time and print the
+# debug UART (USART2 on disco, USART1 on dkx).
+run: all
+	@$(SIM_ENV) LOG_FILTER='$(LOG_FILTER)' STIMULUS='$(STIMULUS)' $(COMMON_DIR)/run.sh $(ELF) $(RUN_TIME)
+
+# Interactive Renode: debug UART on TCP port 3456, GDB server on port 3333.
+# GUI=1 opens the monitor and a UART terminal as windows instead.
 sim: all
-	@GUI='$(GUI)' $(COMMON_DIR)/sim.sh $(ELF)
+	@$(SIM_ENV) GUI='$(GUI)' $(COMMON_DIR)/sim.sh $(ELF)
 
 gdb: all
 	gdb-multiarch -q $(ELF) -ex "target remote :3333"

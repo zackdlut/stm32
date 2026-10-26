@@ -1,0 +1,11 @@
+# Lesson 19: set the voltage seen by the simulated ADC1.
+# The model in common/dkx/board.repl takes channel N's raw 12-bit value from
+# offset 0x100 + 4 * N: IN5 is at 0x40012514. IN16 (temperature) and IN17
+# (Vrefint) keep their defaults, 1750 and 1490.
+
+sysbus WriteDoubleWord 0x40012514 1241
+emulation RunFor "0.03"
+sysbus WriteDoubleWord 0x40012514 2482
+emulation RunFor "0.05"
+sysbus WriteDoubleWord 0x40012514 4095
+emulation RunFor "0.2"

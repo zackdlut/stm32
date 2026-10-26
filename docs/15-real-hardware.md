@@ -14,8 +14,9 @@
 | **STM32F4DISCOVERY**（新版型号 STM32F407G-DISC1） | STM32F407VG | **完全一致**：PD12~15 四个 LED、PA0 按键、8 MHz 晶振、板载 ST-LINK | 约 150~200 元 |
 | Nucleo-F401RE / F411RE | STM32F401RE / F411RE | 同为 Cortex-M4F，需要改引脚和链接脚本（见 15.5） | 约 100 元 |
 | “黑色/蓝色 F407 核心板” + ST-LINK V2 仿真器 | STM32F407VE/ZG | 寄存器相同，LED/按键引脚各家不同，需改 `board.h` | 约 50~100 元 |
+| 立创·地阔星 STM32F103C8T6 | STM32F103C8T6 | Cortex-M3、72 MHz，GPIO/DMA/ADC 寄存器与 F4 不同；第 1~11、13、14、16~19 课已有现成的 F103 版，`make BOARD=dkx`，见 [附录 C](appendix-c-dkx-f103.md) | 见立创商城 |
 
-首选 Discovery 板：本教程的所有代码不改一行就能运行。
+首选 Discovery 板：本教程的所有代码不改一行就能运行。手上是地阔星的话，直接看附录 C。
 
 另外准备：
 
@@ -143,6 +144,8 @@ gdb-multiarch -q build/fault1/firmware.elf \
 2. **链接脚本**：F411RE 是 512 KB Flash、128 KB RAM；F401RE 是 512 KB Flash、96 KB RAM
 3. **引脚**：用户 LED LD2 在 **PA5**（高电平点亮），用户按键 B1 在 **PC13**（**低电平有效**，按下为 0，下降沿触发），串口 USART2 PA2/PA3 已连到 ST-LINK 虚拟串口，插上 USB 就有串口
 4. **时钟**：Nucleo 板默认没有焊晶振，HSE 来自 ST-LINK 的 8 MHz MCO 输出，需要 **HSE 旁路模式**（`RCC_CR_HSEBYP`）；F411 最高 100 MHz，F401 最高 84 MHz，PLL 参数要重新计算
+
+换到不同系列（例如 STM32F1）时改动更多：GPIO 配置寄存器、时钟使能位、DMA、ADC 都不一样。[附录 C](appendix-c-dkx-f103.md) 以地阔星 STM32F103C8T6 为例完整做了一遍，可以当作移植的范例：每课的 `dkx/main.c` 和正文的 `main.c` 对比着看，差异就是移植要做的事。
 
 ## 15.6 用 CubeMX 生成工程
 

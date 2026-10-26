@@ -1,0 +1,9 @@
+# Lesson 17: set the simulated sensor's readings, then change them mid-run.
+
+i2c1.sht20 Temperature 23.5
+i2c1.sht20 Humidity 45
+emulation RunFor "0.15"
+
+i2c1.sht20 Temperature -5.25
+i2c1.sht20 Humidity 80
+emulation RunFor "0.35"

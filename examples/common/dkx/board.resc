@@ -1,0 +1,79 @@
+:name: LCSC Dikuoxing STM32F103C8T6 (tutorial, appendix C)
+:description: Board setup for BOARD=dkx. Expects $bin to point at the ELF.
+
+using sysbus
+
+$name?="dkx-stm32f103"
+mach create $name
+machine LoadPlatformDescription $ORIGIN/board.repl
+
+# A freshly reset STM32F103 runs from the 8 MHz HSI oscillator.
+cpu PerformanceInMips 8
+nvic Frequency 8000000
+
+# The RCC stub does not retime anything. Whenever the firmware writes
+# RCC_CFGR, compute HCLK and the timer clocks from the register value and
+# apply them, as the clock tree would on silicon. On the F103 the PLL
+# settings live in CFGR itself.
+set clock_hook
+"""
+cfgr = value
+if cfgr & 3 == 2:
+    if cfgr & (1 << 16):
+        src = 8000000 // (2 if cfgr & (1 << 17) else 1)
+    else:
+        src = 4000000
+    sysclk = src * min(((cfgr >> 18) & 0xF) + 2, 16)
+else:
+    sysclk = 8000000
+ahb_div = [1, 1, 1, 1, 1, 1, 1, 1, 2, 4, 8, 16, 64, 128, 256, 512][(cfgr >> 4) & 0xF]
+apb_div = [1, 1, 1, 1, 2, 4, 8, 16]
+apb1_div = apb_div[(cfgr >> 8) & 7]
+apb2_div = apb_div[(cfgr >> 11) & 7]
+hclk = sysclk // ahb_div
+apb1_tim_clk = hclk // apb1_div * (1 if apb1_div == 1 else 2)
+apb2_tim_clk = hclk // apb2_div * (1 if apb2_div == 1 else 2)
+machine = cpu.GetMachine()
+machine['sysbus.nvic'].Frequency = hclk
+for t in ['timer2', 'timer3', 'timer4']:
+    machine['sysbus.' + t].Frequency = apb1_tim_clk
+machine['sysbus.timer1'].Frequency = apb2_tim_clk
+cpu.PerformanceInMips = max(1, hclk // 1000000)
+"""
+sysbus AddWatchpointHook 0x40021004 DoubleWord Write $clock_hook
+
+# Renode's F1 DMA model copies a whole block as soon as a memory-to-memory or
+# memory-to-peripheral channel is enabled, and takes CNDTR as a byte count.
+# On silicon CNDTR counts data items, so for 16/32-bit items scale it to bytes
+# right before the CCR write that sets EN.
+set dma_ccr_hook
+"""
+ccr = value
+if ccr & 1 and ccr & ((1 << 14) | (1 << 4)):
+    source_size_field = (ccr >> 10) & 3 if ccr & (1 << 4) else (ccr >> 8) & 3
+    item_bytes = 1 << source_size_field
+    if item_bytes > 1:
+        bus = cpu.GetMachine().SystemBus
+        cndtr = address + 4
+        bus.WriteDoubleWord(cndtr, (bus.ReadDoubleWord(cndtr) & 0xFFFF) * item_bytes)
+"""
+sysbus AddWatchpointHook 0x40020008 DoubleWord Write $dma_ccr_hook
+sysbus AddWatchpointHook 0x4002001C DoubleWord Write $dma_ccr_hook
+sysbus AddWatchpointHook 0x40020030 DoubleWord Write $dma_ccr_hook
+sysbus AddWatchpointHook 0x40020044 DoubleWord Write $dma_ccr_hook
+sysbus AddWatchpointHook 0x40020058 DoubleWord Write $dma_ccr_hook
+sysbus AddWatchpointHook 0x4002006C DoubleWord Write $dma_ccr_hook
+sysbus AddWatchpointHook 0x40020080 DoubleWord Write $dma_ccr_hook
+
+# Show "LED state changed" messages for the user LED.
+logLevel -1 gpioPortC.UserLED
+
+# Renode's AFIO only routes timer channels to their pins when TIMx_REMAP in
+# AFIO_MAPR is written; on silicon the default mapping (TIM3_CH3 -> PB0, ...)
+# is active from reset. Writing the reset value once selects it.
+macro reset
+"""
+    sysbus LoadELF $bin
+    sysbus WriteDoubleWord 0x40010004 0
+"""
+runMacro $reset

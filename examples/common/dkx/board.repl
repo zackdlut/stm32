@@ -1,0 +1,121 @@
+// LCSC "Dikuoxing" STM32F103C8T6 board as used in appendix C.
+//
+// The CPU description comes with Renode. It has no model for RCC, the flash
+// interface, SPI or ADC, so the pieces the lessons touch are added below.
+
+using "platforms/cpus/stm32f103.repl"
+
+// PC13 user LED, lit when the pin is high.
+UserLED: Miscellaneous.LED @ gpioPortC
+
+gpioPortC:
+    13 -> UserLED@0
+
+// External button on PA0 to 3.3 V with a pull-down: pressed = high, like the
+// Discovery board's B1, so the lesson stimulus scripts work unchanged.
+UserButton: Miscellaneous.Button @ gpioPortA
+    -> gpioPortA@0
+
+// After reset every APB clock is 8 MHz (HSI, all prescalers /1).
+timer1:
+    frequency: 8000000
+
+timer2:
+    frequency: 8000000
+
+timer3:
+    frequency: 8000000
+
+timer4:
+    frequency: 8000000
+
+// The stock description downloads an SVD file at load time; skip that so the
+// simulator also works offline.
+sysbus:
+    init:
+        Tag <0x40021000, 0x40021003> "RCC_CR" 0x83
+
+// Just enough RCC: every ...ON bit in CR reports its ...RDY bit, CFGR.SWS
+// follows CFGR.SW, all other registers keep what was written. Reset values
+// as in RM0008 (HSI on, SRAM and FLITF clocks on).
+rcc: Python.PythonPeripheral @ sysbus 0x40021000
+    size: 0x400
+    initable: true
+    script: '''
+if request.IsInit:
+    regs = {0x00: 0x00000083, 0x14: 0x00000014, 0x24: 0x0C000000}
+elif request.IsRead:
+    v = regs.get(request.Offset, 0)
+    if request.Offset == 0x00:
+        v = (v & ~0x02020002) | ((v & 0x01010001) << 1)
+    elif request.Offset == 0x04:
+        v = (v & ~0xC) | ((v & 3) << 2)
+    request.Value = v
+elif request.IsWrite:
+    regs[request.Offset] = request.Value
+'''
+
+// Flash interface: plain memory so FLASH_ACR (wait states) reads back.
+flash_if: Memory.ArrayMemory @ sysbus 0x40022000
+    size: 0x400
+
+// ---- Additions for lessons 16-19 ------------------------------------------
+
+// Sensor on I2C1 (PB6 SCL, PB7 SDA), address 0x40. Renode has no SHT20; the
+// Si7021 answers the same measurement commands with the same formulas.
+sht20: Sensors.SI70xx @ i2c1 0x40
+    model: Model.SI7021
+
+// SPI1 (PA5 SCK, PA6 MISO, PA7 MOSI) with an 8 MB NOR flash standing in for
+// the W25Q64, chip select PA4.
+spi1: SPI.STM32SPI @ sysbus 0x40013000
+    series: STM32Series.F1
+    IRQ -> nvic@35
+
+spiflash: SPI.Micron_MT25Q @ spi1
+    underlyingMemory: spiflash_mem
+
+spiflash_mem: Memory.MappedMemory @ none
+    size: 0x800000
+
+gpioPortA:
+    4 -> spiflash@0
+
+// Renode has no STM32F1 ADC model. This one converts instantly: starting a
+// conversion copies the input value of the selected channel (SQR3 SQ1) to DR
+// and sets EOC. The inputs are simulator-only registers at offset
+// 0x100 + 4 * channel (default: IN5 = 2048, IN16 = 1750, IN17 = 1490);
+// stimulus.resc writes them with `sysbus WriteDoubleWord`.
+adc1: Python.PythonPeripheral @ sysbus 0x40012400
+    size: 0x400
+    initable: true
+    script: '''
+if request.IsInit:
+    regs = {}
+    inputs = {5: 2048, 16: 1750, 17: 1490}
+elif request.IsRead:
+    off = request.Offset
+    if off >= 0x100:
+        request.Value = inputs.get((off - 0x100) // 4, 0)
+    else:
+        request.Value = regs.get(off, 0)
+        if off == 0x4C:
+            regs[0x00] = regs.get(0x00, 0) & ~0x2
+elif request.IsWrite:
+    off = request.Offset
+    val = request.Value
+    if off >= 0x100:
+        inputs[(off - 0x100) // 4] = val & 0xFFF
+    elif off == 0x08:
+        was_on = regs.get(0x08, 0) & 1
+        start = (val & (1 << 22)) or (was_on and (val & 1) and not (val & 0x0C))
+        regs[0x08] = val & ~((1 << 22) | 0x0C)
+        if (val & 1) and start:
+            ch = regs.get(0x34, 0) & 0x1F
+            regs[0x4C] = inputs.get(ch, 0)
+            regs[0x00] = regs.get(0x00, 0) | 0x12
+    elif off == 0x00:
+        regs[0x00] = regs.get(0x00, 0) & val
+    else:
+        regs[off] = val
+'''

@@ -1,6 +1,7 @@
 /*
- * Output sections shared by every STM32F407 linker script in the tutorial.
- * The including script defines the FLASH and RAM regions and ENTRY.
+ * Output sections shared by every linker script in the tutorial (STM32F407,
+ * and the STM32F103 one in dkx/). The including script defines the FLASH and
+ * RAM regions and ENTRY.
  */
 
 _min_heap_size  = 0x1000;

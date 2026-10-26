@@ -301,4 +301,4 @@ usart2: [cpu: 0x80024CE] ReadUInt32 from 0x4 (Data), returned 0x68
 
 ---
 
-[返回目录](README.md)　｜　[附录 A　速查表](appendix-a-cheatsheet.md)
+[返回目录](README.md)　｜　[附录 A　速查表](appendix-a-cheatsheet.md)　｜　[附录 C　地阔星 F103 版](appendix-c-dkx-f103.md)

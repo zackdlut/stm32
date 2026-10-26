@@ -1,0 +1,15 @@
+# Type a few commands into the CLI.
+
+emulation RunFor "0.05"
+sysbus.usart1 WriteLine "help"
+emulation RunFor "0.1"
+sysbus.usart1 WriteLine "led on"
+emulation RunFor "0.05"
+sysbus.usart1 WriteLine "led toggle"
+emulation RunFor "0.05"
+sysbus.usart1 WriteLine "status"
+emulation RunFor "0.05"
+sysbus.usart1 WriteLine "uptime"
+emulation RunFor "0.05"
+sysbus.usart1 WriteLine "reboot"
+emulation RunFor "0.05"

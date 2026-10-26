@@ -1,0 +1,6 @@
+# No LED on PB0 in the simulator; the sampler reads the pin back instead.
+# The PC13 LED toggles twice per second, which keeps the log short.
+# Every TIM3 compare event also raises a DMA request that no channel accepts.
+logLevel 3 dma1
+
+emulation RunFor "1.5"

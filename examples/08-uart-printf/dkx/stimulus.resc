@@ -1,0 +1,7 @@
+# Type two lines into USART1 (each ends with a carriage return).
+
+emulation RunFor "0.1"
+sysbus.usart1 WriteLine "hello stm32"
+emulation RunFor "0.1"
+sysbus.usart1 WriteLine "renode"
+emulation RunFor "0.1"

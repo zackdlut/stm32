@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-# Run a firmware image headless in Renode and print what it sent on USART2.
+# Run a firmware image headless in Renode and print what it sent on its
+# debug UART.
 #
 #   run.sh <firmware.elf> [virtual-seconds]
+#
+# RESC (board script, default board.resc here) and UART (default usart2)
+# select the board; lesson.mk sets both for BOARD=dkx.
 #
 # If the current directory contains stimulus.resc, it is included instead of a
 # plain `emulation RunFor`, so a lesson can press buttons or type into the UART
@@ -16,6 +20,8 @@ elf="$(realpath "$1")"
 seconds="${2:-1}"
 common="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 renode="${RENODE:-renode}"
+resc="${RESC:-${common}/board.resc}"
+uart="${UART:-usart2}"
 build_dir="$(dirname "${elf}")"
 uart_log="${build_dir}/uart.log"
 renode_log="${build_dir}/renode.log"
@@ -39,15 +45,15 @@ fi
 
 "${renode}" --disable-gui --console --plain \
     -e "\$bin=@${elf}" \
-    -e "i @${common}/board.resc" \
-    -e "sysbus.usart2 CreateFileBackend @${uart_log} true" \
+    -e "i @${resc}" \
+    -e "sysbus.${uart} CreateFileBackend @${uart_log} true" \
     -e "${run_cmd}" \
     -e "quit" \
     > "${renode_log}" 2>&1 || true
 
 grep -E "${filter}" "${renode_log}" || true
 
-printf '\n----- USART2 output -----\n'
+printf '\n----- %s output -----\n' "${uart^^}"
 if [[ -f "${uart_log}" ]]; then
     cat "${uart_log}"
 fi

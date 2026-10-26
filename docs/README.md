@@ -5,6 +5,7 @@
 - 目标芯片：**STM32F407VG**（Cortex-M4F，168 MHz，1 MB Flash，192 KB RAM）
 - 目标板：**STM32F4 Discovery**（4 个 LED 接 PD12~PD15，用户按键接 PA0）
 - 工具：`arm-none-eabi-gcc`、`make`、Renode、`gdb-multiarch`
+- 另一块板子：第 1~11、13、14、16~19 课还有 **立创·地阔星 STM32F103C8T6** 版本，`make BOARD=dkx run` 即可，见 [附录 C](appendix-c-dkx-f103.md)
 - 每一课都有可运行代码（`examples/`）、原理图（`docs/images/`）和实际运行输出
 
 ![从源代码到芯片](images/01-toolchain-flow.svg)
@@ -67,6 +68,7 @@
 | 25 | [单元测试与 CI](25-testing-ci.md) | `25-testing` | Unity、fake、Sanitizer、覆盖率、Robot 系统测试、GitHub Actions |
 | 附录 A | [速查表](appendix-a-cheatsheet.md) | — | 地址、寄存器、公式、命令 |
 | 附录 B | [Renode 使用说明、局限与 FAQ](appendix-b-renode.md) | — | 脚本、模拟按键/串口、常见问题 |
+| 附录 C | [立创·地阔星 STM32F103C8T6 版](appendix-c-dkx-f103.md) | 各课 `dkx/` | `BOARD=dkx`、F103 与 F407 的差异、逐课改动、上板烧写 |
 
 ## 怎么使用这套教程
 
@@ -114,9 +116,10 @@ stm32/
     │   ├── cmsis.mk           第 16 章起的 Makefile 规则（ST 启动文件 + CMSIS）
     │   ├── board.repl/.resc   Renode 板级描述与启动脚本（含 I2C 传感器、SPI Flash、DAC 模型）
     │   ├── run.sh             无界面运行并收集串口输出（LOG_FILTER、STIMULUS 可调）
-    │   └── sim.sh             交互式运行
-    ├── 01-hello … 25-testing/ 每课一个目录：main.c + Makefile (+ stimulus.resc)
-    ├── third_party/fetch.sh   下载 CMSIS、HAL、FreeRTOS、TinyUSB、Unity
+    │   ├── sim.sh             交互式运行
+    │   └── dkx/               地阔星 STM32F103 的头文件、启动文件、驱动和 Renode 描述（附录 C）
+    ├── 01-hello … 25-testing/ 每课一个目录：main.c + Makefile (+ stimulus.resc)，部分课有 dkx/ 子目录
+    ├── third_party/fetch.sh   下载 CMSIS（F4、F1）、HAL、FreeRTOS、TinyUSB、Unity
     └── stm32f407-renode/      最早的冒烟测试工程
 ```
 
