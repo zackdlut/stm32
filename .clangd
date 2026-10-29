@@ -1,0 +1,35 @@
+# Fallback when compile_commands.json is missing; dkx/ uses compile_flags.txt symlinks.
+# Match lesson.mk (BOARD=disco): -I$(COMMON_DIR) -I. -DSTM32F407xx
+If:
+  PathMatch: .*/examples/[0-9][0-9]-[^/]+/main\.(c|cpp)$
+CompileFlags:
+  Add:
+    - -Iexamples/common
+    - -DSTM32F407xx
+    - --target=arm-none-eabi
+    - -mcpu=cortex-m4
+    - -mthumb
+    - -mfpu=fpv4-sp-d16
+    - -mfloat-abi=hard
+
+If:
+  PathMatch: .*/examples/common/.*\.(c|h|cpp|hpp)$
+CompileFlags:
+  Add:
+    - -Iexamples/common
+    - -DSTM32F407xx
+    - --target=arm-none-eabi
+    - -mcpu=cortex-m4
+    - -mthumb
+    - -mfpu=fpv4-sp-d16
+    - -mfloat-abi=hard
+
+# lesson.mk BOARD=dkx: -I$(BOARD_DIR) -I.
+If:
+  PathMatch: .*/examples/.*/dkx/.*
+CompileFlags:
+  Add:
+    - -Iexamples/common/dkx
+    - -DSTM32F103xB
+    - --target=arm-none-eabi
+    - -mcpu=cortex-m3

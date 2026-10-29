@@ -1,0 +1,7 @@
+{
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}",
+    "--query-driver=**/arm-none-eabi-*"
+  ],
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/compile_commands.json"
+}

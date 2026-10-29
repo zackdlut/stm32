@@ -205,17 +205,17 @@ LDFLAGS  += $(ARCH) -T$(LDSCRIPT) --specs=nano.specs --specs=nosys.specs \
 
 常用目标：
 
-| 命令             | 作用                                                               |
-| ---------------- | ------------------------------------------------------------------ |
-| `make`         | 只编译，生成 `build/firmware.elf` 和 `.bin`                    |
-| `make run`     | 编译并在 Renode 里无界面运行 `RUN_TIME` 秒虚拟时间，打印串口输出 |
-| `make run V=1` | 同上，并显示 Renode 的警告（访问了未模拟的寄存器等）               |
-| `make sim`     | 交互式 Renode：串口在 TCP 3456，GDB 在 3333                        |
-| `make sim GUI=1` | 同上，但监视器和串口终端各开一个窗口                             |
-| `make gdb`     | 连接到 `make sim` 启动的 GDB 服务器                              |
-| `make disasm`  | 生成带源码的反汇编 `build/firmware.lst`                          |
-| `make size`    | 各段大小                                                           |
-| `make clean`   | 删除 `build/`                                                    |
+| 命令               | 作用                                                               |
+| ------------------ | ------------------------------------------------------------------ |
+| `make`           | 只编译，生成 `build/firmware.elf` 和 `.bin`                    |
+| `make run`       | 编译并在 Renode 里无界面运行 `RUN_TIME` 秒虚拟时间，打印串口输出 |
+| `make run V=1`   | 同上，并显示 Renode 的警告（访问了未模拟的寄存器等）               |
+| `make sim`       | 交互式 Renode：串口在 TCP 3456，GDB 在 3333                        |
+| `make sim GUI=1` | 同上，但监视器和串口终端各开一个窗口                               |
+| `make gdb`       | 连接到 `make sim` 启动的 GDB 服务器                              |
+| `make disasm`    | 生成带源码的反汇编 `build/firmware.lst`                          |
+| `make size`      | 各段大小                                                           |
+| `make clean`     | 删除 `build/`                                                    |
 
 `.elf` 是带地址和符号的完整镜像，模拟器和调试器用它；`.bin` 是纯二进制，内容就是要写进 Flash 的字节，烧录真板时会用到。
 

@@ -1,0 +1,437 @@
+[
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/01-hello",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/01-hello/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/drivers/uart.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/drivers/uart.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/startup.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/startup.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/syscalls.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/syscalls.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/01-hello",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/01-hello/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/dkx/drivers/uart.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/dkx/drivers/uart.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/dkx/startup.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/dkx/startup.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/02-registers",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/02-registers/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/02-registers",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/02-registers/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/03-startup",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/03-startup/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/03-startup",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/03-startup/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/04-gpio-output",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/04-gpio-output/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/04-gpio-output",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/04-gpio-output/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/05-gpio-input",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/05-gpio-input/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/05-gpio-input",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/05-gpio-input/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/06-clock-systick",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/06-clock-systick/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/06-clock-systick",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/06-clock-systick/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/07-exti-interrupt",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/07-exti-interrupt/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/drivers/systick.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/drivers/systick.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/07-exti-interrupt",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/07-exti-interrupt/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/dkx/drivers/systick.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/dkx/drivers/systick.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/08-uart-printf",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/08-uart-printf/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/08-uart-printf",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/08-uart-printf/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/09-uart-irq-cli",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/09-uart-irq-cli/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/09-uart-irq-cli",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/09-uart-irq-cli/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/10-timer-pwm",
+    "command": "arm-none-eabi-gcc -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/10-timer-pwm/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/10-timer-pwm",
+    "command": "arm-none-eabi-gcc -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/10-timer-pwm/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/11-cmsis",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/11-cmsis/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/../third_party/cmsis-device-f4/Source/Templates/system_stm32f4xx.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/cmsis-device-f4/Source/Templates/system_stm32f4xx.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c ../common/../third_party/cmsis-device-f4/Source/Templates/gcc/startup_stm32f407xx.s -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/cmsis-device-f4/Source/Templates/gcc/startup_stm32f407xx.s"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/11-cmsis",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/11-cmsis/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/../third_party/cmsis-device-f1/Source/Templates/system_stm32f1xx.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/cmsis-device-f1/Source/Templates/system_stm32f1xx.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac",
+    "command": "arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -c ../common/../third_party/cmsis-device-f1/Source/Templates/gcc/startup_stm32f103xb.s -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/cmsis-device-f1/Source/Templates/gcc/startup_stm32f103xb.s"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/12-hal/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c stm32f4xx_hal_msp.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/12-hal/stm32f4xx_hal_msp.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c stm32f4xx_it.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/12-hal/stm32f4xx_it.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_cortex.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc_ex.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_rcc_ex.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_gpio.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_gpio.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_dma.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_dma.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_pwr.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_pwr.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_flash.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/12-hal",
+    "command": "arm-none-eabi-gcc -DUSE_HAL_DRIVER -DHSE_VALUE=8000000u -I../third_party/cmsis-core/Include -I../third_party/cmsis-device-f4/Include -I../third_party/stm32f4xx-hal-driver/Inc -I../common -I. -DSTM32F407xx -MMD -MP -Wno-unused-parameter -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_uart.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/stm32f4xx-hal-driver/Src/stm32f4xx_hal_uart.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/13-debug-fault",
+    "command": "arm-none-eabi-gcc -DFAULT_KIND=1 -DELF_PATH='\"build/fault1/firmware.elf\"' -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -Og -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/13-debug-fault/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/13-debug-fault",
+    "command": "arm-none-eabi-gcc -DFAULT_KIND=1 -DELF_PATH='\"build-dkx/fault1/firmware.elf\"' -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -Og -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/13-debug-fault/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-g++ -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c++17 -fno-exceptions -fno-rtti -fno-threadsafe-statics -c main.cpp -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp/main.cpp"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp",
+    "command": "arm-none-eabi-g++ -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c++17 -fno-exceptions -fno-rtti -fno-threadsafe-statics -c dkx/main.cpp -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/14-cpp/dkx/main.cpp"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/16-dma",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/16-dma/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/cmsis-drivers/uart.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/cmsis-drivers/uart.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/cmsis-drivers/tick.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/cmsis-drivers/tick.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/16-dma",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/16-dma/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/dkx/cmsis-drivers/uart.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/dkx/cmsis-drivers/uart.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../common/dkx/cmsis-drivers/tick.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/common/dkx/cmsis-drivers/tick.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c i2c.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c/i2c.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/i2c.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/17-i2c/dkx/i2c.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/18-spi",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/18-spi/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/18-spi",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/18-spi/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/dkx/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f1/Include -I../common/dkx -I. -DSTM32F103xB -MMD -MP -mcpu=cortex-m3 -mthumb -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c dkx/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/19-adc-dac/dkx/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/20-rtc-watchdog",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/20-rtc-watchdog/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/21-low-power",
+    "command": "arm-none-eabi-gcc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/21-low-power/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos",
+    "command": "arm-none-eabi-gcc -I../third_party/freertos-kernel/include -I../third_party/freertos-kernel/portable/GCC/ARM_CM4F -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos",
+    "command": "arm-none-eabi-gcc -I../third_party/freertos-kernel/include -I../third_party/freertos-kernel/portable/GCC/ARM_CM4F -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/freertos-kernel/tasks.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/freertos-kernel/tasks.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos",
+    "command": "arm-none-eabi-gcc -I../third_party/freertos-kernel/include -I../third_party/freertos-kernel/portable/GCC/ARM_CM4F -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/freertos-kernel/queue.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/freertos-kernel/queue.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos",
+    "command": "arm-none-eabi-gcc -I../third_party/freertos-kernel/include -I../third_party/freertos-kernel/portable/GCC/ARM_CM4F -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/freertos-kernel/list.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/freertos-kernel/list.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos",
+    "command": "arm-none-eabi-gcc -I../third_party/freertos-kernel/include -I../third_party/freertos-kernel/portable/GCC/ARM_CM4F -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/freertos-kernel/timers.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/freertos-kernel/timers.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos",
+    "command": "arm-none-eabi-gcc -I../third_party/freertos-kernel/include -I../third_party/freertos-kernel/portable/GCC/ARM_CM4F -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/freertos-kernel/portable/GCC/ARM_CM4F/port.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/freertos-kernel/portable/GCC/ARM_CM4F/port.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/22-freertos",
+    "command": "arm-none-eabi-gcc -I../third_party/freertos-kernel/include -I../third_party/freertos-kernel/portable/GCC/ARM_CM4F -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/freertos-kernel/portable/MemMang/heap_4.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/freertos-kernel/portable/MemMang/heap_4.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/23-bootloader/app",
+    "command": "arm-none-eabi-gcc -DAPP_VERSION=1 -DHSE_VALUE=8000000u -I../../common/cmsis-drivers -I../../common/../third_party/cmsis-core/Include -I../../common/../third_party/cmsis-device-f4/Include -I../../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/23-bootloader/app/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/23-bootloader/bootloader",
+    "command": "arm-none-eabi-gcc -I.. -DHSE_VALUE=8000000u -I../../common/cmsis-drivers -I../../common/../third_party/cmsis-core/Include -I../../common/../third_party/cmsis-device-f4/Include -I../../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/23-bootloader/bootloader/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/23-bootloader/bootloader",
+    "command": "arm-none-eabi-gcc -I.. -DHSE_VALUE=8000000u -I../../common/cmsis-drivers -I../../common/../third_party/cmsis-core/Include -I../../common/../third_party/cmsis-device-f4/Include -I../../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c flash.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/23-bootloader/bootloader/flash.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c usb_descriptors.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc/usb_descriptors.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/tinyusb/src/tusb.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/tinyusb/src/tusb.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/tinyusb/src/common/tusb_fifo.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/tinyusb/src/common/tusb_fifo.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/tinyusb/src/device/usbd.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/tinyusb/src/device/usbd.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/tinyusb/src/class/cdc/cdc_device.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/tinyusb/src/class/cdc/cdc_device.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/tinyusb/src/portable/synopsys/dwc2/dcd_dwc2.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/tinyusb/src/portable/synopsys/dwc2/dcd_dwc2.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/24-usb-cdc",
+    "command": "arm-none-eabi-gcc -I../third_party/tinyusb/src -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c ../third_party/tinyusb/src/portable/synopsys/dwc2/dwc2_common.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/third_party/tinyusb/src/portable/synopsys/dwc2/dwc2_common.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c firmware/main.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/25-testing/firmware/main.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c src/ringbuf.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/25-testing/src/ringbuf.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c src/baud.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/25-testing/src/baud.c"
+  },
+  {
+    "directory": "/home/zackzh/workspace/mcu/stm32/examples/25-testing",
+    "command": "arm-none-eabi-gcc -Isrc -DHSE_VALUE=8000000u -I../common/cmsis-drivers -I../common/../third_party/cmsis-core/Include -I../common/../third_party/cmsis-device-f4/Include -I../common -I. -DSTM32F407xx -MMD -MP -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -O2 -g3 -Wall -Wextra -ffunction-sections -fdata-sections -std=c11 -c src/cmd.c -o /dev/null",
+    "file": "/home/zackzh/workspace/mcu/stm32/examples/25-testing/src/cmd.c"
+  }
+]
